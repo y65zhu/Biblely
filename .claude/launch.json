@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "biblely-prototype",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "4400", "/Users/zhuya/Documents/GitHub/Biblely/.claude/worktrees/vibrant-heisenberg"],
+      "port": 4400
+    }
+  ]
+}
