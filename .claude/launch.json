@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "biblely-prototype",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/tmp/serve_biblely.py"],
+      "port": 4400
+    }
+  ]
+}
