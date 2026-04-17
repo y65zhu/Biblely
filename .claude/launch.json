@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "biblely-prototype",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["/tmp/serve_biblely.py"],
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "4400", "/Users/zhuya/Documents/GitHub/Biblely/.claude/worktrees/vibrant-heisenberg"],
       "port": 4400
     }
   ]
