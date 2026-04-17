@@ -1,1108 +1,3485 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Biblely</title>
-<style>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Biblely</title>
+    <style>
+      :root {
+        --warm-white: #faf8f4;
+        --deep-navy: #1a2b4a;
+        --navy-mid: #243b5f;
+        --muted-sapphire: #4a6fa5;
+        --sapphire-light: #e8eef7;
+        --soft-gold: #c9a84c;
+        --gold-light: #f7f0df;
+        --border: #e8e3da;
+        --border-light: #f0ebe2;
+        --text-1: #1a2b4a;
+        --text-2: #4a4f5c;
+        --text-3: #8b8e96;
+        --bg: #faf8f4;
+        --bg-2: #f3efe8;
+        --bg-card: #ffffff;
+        --shadow-sm: 0 1px 3px rgba(26, 43, 74, 0.07);
+        --shadow-md: 0 4px 14px rgba(26, 43, 74, 0.1);
+        --r-sm: 8px;
+        --r-md: 14px;
+        --r-lg: 20px;
+        --r-xl: 28px;
+      }
 
-:root {
-  --warm-white:    #FAF8F4;
-  --deep-navy:     #1A2B4A;
-  --navy-mid:      #243B5F;
-  --muted-sapphire:#4A6FA5;
-  --sapphire-light:#E8EEF7;
-  --soft-gold:     #C9A84C;
-  --gold-light:    #F7F0DF;
-  --border:        #E8E3DA;
-  --border-light:  #F0EBE2;
-  --text-1:        #1A2B4A;
-  --text-2:        #4A4F5C;
-  --text-3:        #8B8E96;
-  --bg:            #FAF8F4;
-  --bg-2:          #F3EFE8;
-  --bg-card:       #FFFFFF;
-  --shadow-sm:     0 1px 3px rgba(26,43,74,.07);
-  --shadow-md:     0 4px 14px rgba(26,43,74,.10);
-  --r-sm: 8px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px;
-}
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        background: #d4cebe;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  height: 100%;
-  background: #D4CEBE;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC',
-               'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
+      /* ── PHONE SHELL ── */
+      .device-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 0;
+      }
+      .phone {
+        width: 390px;
+        height: 844px;
+        background: var(--bg);
+        border-radius: 50px;
+        overflow: hidden;
+        box-shadow:
+          0 0 0 1px rgba(0, 0, 0, 0.18),
+          0 32px 80px rgba(0, 0, 0, 0.32),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
 
-/* ── PHONE SHELL ── */
-.device-wrap {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 32px 0;
-}
-.phone {
-  width: 390px; height: 844px;
-  background: var(--bg);
-  border-radius: 50px; overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.18), 0 32px 80px rgba(0,0,0,.32),
-              inset 0 0 0 1px rgba(255,255,255,.12);
-  display: flex; flex-direction: column; position: relative;
-}
+      /* ── STATUS BAR ── */
+      .status-bar {
+        height: 52px;
+        padding: 14px 28px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+        background: var(--bg);
+        position: relative;
+        z-index: 10;
+      }
+      .status-time {
+        font-size: 15px;
+        font-weight: 620;
+        color: var(--text-1);
+        letter-spacing: -0.2px;
+      }
+      .status-icons {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
 
-/* ── STATUS BAR ── */
-.status-bar {
-  height: 52px; padding: 14px 28px 0;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-shrink: 0; background: var(--bg); position: relative; z-index: 10;
-}
-.status-time { font-size: 15px; font-weight: 620; color: var(--text-1); letter-spacing: -.2px; }
-.status-icons { display: flex; align-items: center; gap: 7px; }
+      /* ── SCREENS ── */
+      .screens {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+      }
+      .screen {
+        position: absolute;
+        inset: 0;
+        background: var(--bg);
+        display: none;
+        flex-direction: column;
+      }
+      .screen.active {
+        display: flex;
+        animation: screenIn 0.22s ease;
+      }
+      @keyframes screenIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .scroll {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+      .scroll::-webkit-scrollbar {
+        display: none;
+      }
 
-/* ── SCREENS ── */
-.screens { flex: 1; overflow: hidden; position: relative; }
-.screen {
-  position: absolute; inset: 0; background: var(--bg);
-  display: none; flex-direction: column;
-}
-.screen.active { display: flex; animation: screenIn .22s ease; }
-@keyframes screenIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
-.scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
-.scroll::-webkit-scrollbar { display: none; }
+      /* ── BOTTOM NAV ── */
+      .bottom-nav {
+        height: 90px;
+        padding: 10px 0 0;
+        background: rgba(250, 248, 244, 0.97);
+        backdrop-filter: saturate(180%) blur(20px);
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: flex-start;
+        flex-shrink: 0;
+      }
+      .nav-tab {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        padding: 2px 0;
+        -webkit-tap-highlight-color: transparent;
+        transition: opacity 0.15s;
+      }
+      .nav-tab:active {
+        opacity: 0.65;
+      }
+      .nav-tab svg {
+        stroke: var(--text-3);
+        transition: stroke 0.2s;
+      }
+      .nav-tab .nav-lbl {
+        font-size: 10px;
+        font-weight: 500;
+        color: var(--text-3);
+        transition: color 0.2s;
+      }
+      .nav-tab.active svg {
+        stroke: var(--muted-sapphire);
+      }
+      .nav-tab.active .nav-lbl {
+        color: var(--muted-sapphire);
+        font-weight: 600;
+      }
 
-/* ── BOTTOM NAV ── */
-.bottom-nav {
-  height: 90px; padding: 10px 0 0;
-  background: rgba(250,248,244,.97);
-  backdrop-filter: saturate(180%) blur(20px);
-  border-top: 1px solid var(--border);
-  display: flex; align-items: flex-start; flex-shrink: 0;
-}
-.nav-tab {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  cursor: pointer; padding: 2px 0; -webkit-tap-highlight-color: transparent;
-  transition: opacity .15s;
-}
-.nav-tab:active { opacity: .65; }
-.nav-tab svg { stroke: var(--text-3); transition: stroke .2s; }
-.nav-tab .nav-lbl { font-size: 10px; font-weight: 500; color: var(--text-3); transition: color .2s; }
-.nav-tab.active svg { stroke: var(--muted-sapphire); }
-.nav-tab.active .nav-lbl { color: var(--muted-sapphire); font-weight: 600; }
+      /* ── SHARED ── */
+      .sec-title {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 1.3px;
+        text-transform: uppercase;
+        color: var(--text-3);
+        padding: 0 22px 9px;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .badge-sapphire {
+        background: var(--sapphire-light);
+        color: var(--muted-sapphire);
+      }
+      .badge-gold {
+        background: var(--gold-light);
+        color: var(--soft-gold);
+      }
 
-/* ── SHARED ── */
-.sec-title {
-  font-size: 10.5px; font-weight: 700; letter-spacing: 1.3px;
-  text-transform: uppercase; color: var(--text-3); padding: 0 22px 9px;
-}
-.badge { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 700; }
-.badge-sapphire { background: var(--sapphire-light); color: var(--muted-sapphire); }
-.badge-gold     { background: var(--gold-light);     color: var(--soft-gold); }
+      /* ── EN MODE: hide all Chinese text, promote English as sole primary ── */
+      html[lang="en"] .hero-en        { display: none !important; }
+      html[lang="en"] .cc-chapter-zh  { display: none !important; }
+      html[lang="en"] .book-chip-zh   { display: none !important; }
+      html[lang="en"] .ch-title-zh    { display: none !important; }
+      html[lang="en"] .vtext-zh       { display: none !important; }
+      html[lang="en"] .s-opt-sub      { display: none !important; }
 
-/* ── LANGUAGE OVERRIDE: verse text flips when lang=en ── */
-html[lang="en"] .vtext-zh {
-  font-size: 13.5px !important; font-weight: 400 !important;
-  color: var(--text-2) !important; font-style: italic !important;
-  font-family: 'PingFang SC', sans-serif !important;
-  line-height: 1.7 !important; margin-bottom: 8px !important;
-}
-html[lang="en"] .vtext-en {
-  font-size: 17px !important; font-weight: 500 !important;
-  color: var(--deep-navy) !important; font-style: normal !important;
-  line-height: 1.85 !important;
-}
-/* In EN mode, English verse comes first visually */
-html[lang="en"] .verse-num-row { flex-direction: column; gap: 4px; }
-html[lang="en"] .verse-num-row { display: flex; flex-direction: row; gap: 9px; align-items: flex-start; }
-html[lang="en"] .vtext-en-wrap { order: -1; }
+      /* English verse: full-width, primary serif, no indent */
+      html[lang="en"] .verse-num-row  { margin-bottom: 4px; }
+      html[lang="en"] .vtext-en {
+        padding-left: 0 !important;
+        font-size: 18px !important;
+        font-weight: 500 !important;
+        color: var(--deep-navy) !important;
+        font-style: normal !important;
+        line-height: 1.85 !important;
+        margin-bottom: 10px !important;
+        font-family: Georgia, serif !important;
+      }
+      html[lang="en"] .expl-block     { margin-left: 0 !important; }
+      html[lang="en"] .expl-text      { font-family: Georgia, serif !important; }
+      html[lang="en"] .ki-text        { font-family: Georgia, serif !important; }
+      html[lang="en"] .sum-text {
+        font-family: Georgia, serif !important;
+        font-size: 13.5px !important;
+      }
 
-/* book chip: show EN name bigger in EN mode */
-html[lang="zh"] .book-chip-en { font-size: 9.5px; }
-html[lang="en"] .book-chip-zh { font-size: 9.5px !important; font-weight: 400 !important; color: var(--text-3) !important; font-style: italic; }
-html[lang="en"] .book-chip-en { font-size: 12px !important; font-weight: 700 !important; color: var(--text-1) !important; display: block; font-family: Georgia, serif !important; font-style: normal !important; }
+      /* Chapter title: English becomes the large heading */
+      html[lang="en"] .ch-title-en {
+        font-size: 23px !important;
+        font-weight: 800 !important;
+        font-style: normal !important;
+        color: var(--deep-navy) !important;
+        line-height: 1.3 !important;
+        margin-bottom: 18px !important;
+        font-family: Georgia, serif !important;
+      }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━
+      /* Continue card: English title becomes primary */
+      html[lang="en"] .cc-chapter-en {
+        font-size: 17px !important;
+        font-weight: 700 !important;
+        font-style: normal !important;
+        color: var(--deep-navy) !important;
+        margin-bottom: 11px !important;
+        font-family: Georgia, serif !important;
+      }
+      html[lang="en"] .cc-summary     { font-family: Georgia, serif !important; }
+
+      /* Book chips: English name only, prominent */
+      html[lang="zh"] .book-chip-en   { font-size: 9.5px; }
+      html[lang="en"] .book-chip-en {
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        color: var(--text-1) !important;
+        font-family: Georgia, serif !important;
+        font-style: normal !important;
+        display: block;
+      }
+
+      /* ━━━━━━━━━━━━━━━━━━━━━━━━━
    ① HOME
 ━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.home-topbar {
-  padding: 6px 22px 12px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.wordmark { font-family: Georgia,'Times New Roman',serif; font-size: 22px; font-weight: 700; color: var(--deep-navy); letter-spacing: -.4px; }
-.wordmark em { color: var(--soft-gold); font-style: normal; }
-.lang-pill { display: flex; background: var(--bg-2); border-radius: 22px; padding: 3px; gap: 2px; }
-.lang-btn { padding: 5px 11px; border-radius: 18px; font-size: 11.5px; font-weight: 600; cursor: pointer; color: var(--text-3); transition: all .2s; user-select: none; }
-.lang-btn.on { background: var(--deep-navy); color: white; }
+      .home-topbar {
+        padding: 6px 22px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .wordmark {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        letter-spacing: -0.4px;
+      }
+      .wordmark em {
+        color: var(--soft-gold);
+        font-style: normal;
+      }
+      .lang-pill {
+        display: flex;
+        background: var(--bg-2);
+        border-radius: 22px;
+        padding: 3px;
+        gap: 2px;
+      }
+      .lang-btn {
+        padding: 5px 11px;
+        border-radius: 18px;
+        font-size: 11.5px;
+        font-weight: 600;
+        cursor: pointer;
+        color: var(--text-3);
+        transition: all 0.2s;
+        user-select: none;
+      }
+      .lang-btn.on {
+        background: var(--deep-navy);
+        color: white;
+      }
 
-.hero-card {
-  margin: 0 18px 22px; background: var(--deep-navy);
-  border-radius: var(--r-xl); padding: 28px 26px 26px;
-  position: relative; overflow: hidden;
-}
-.hero-eyebrow { font-family: Georgia,serif; font-size: 11px; font-weight: 400; letter-spacing: 2.5px; text-transform: uppercase; color: var(--soft-gold); margin-bottom: 10px; }
-.hero-zh { font-family: 'PingFang SC','Hiragino Sans GB',sans-serif; font-size: 19px; font-weight: 700; color: #fff; line-height: 1.5; margin-bottom: 5px; }
-.hero-en { font-family: Georgia,serif; font-size: 12.5px; font-style: italic; color: rgba(255,255,255,.45); line-height: 1.6; margin-bottom: 22px; }
-.hero-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--soft-gold); color: var(--deep-navy); padding: 10px 18px; border-radius: 22px; font-size: 13px; font-weight: 700; cursor: pointer; transition: opacity .2s; }
-.hero-btn:active { opacity: .82; }
+      .hero-card {
+        margin: 0 18px 22px;
+        background: var(--deep-navy);
+        border-radius: var(--r-xl);
+        padding: 28px 26px 26px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-eyebrow {
+        font-family: Georgia, serif;
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--soft-gold);
+        margin-bottom: 10px;
+      }
+      .hero-zh {
+        font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-size: 19px;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.5;
+        margin-bottom: 5px;
+      }
+      .hero-en {
+        font-family: Georgia, serif;
+        font-size: 12.5px;
+        font-style: italic;
+        color: rgba(255, 255, 255, 0.45);
+        line-height: 1.6;
+        margin-bottom: 22px;
+      }
+      .hero-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--soft-gold);
+        color: var(--deep-navy);
+        padding: 10px 18px;
+        border-radius: 22px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+      .hero-btn:active {
+        opacity: 0.82;
+      }
 
-/* EN mode: flip hero text sizes */
-html[lang="en"] .hero-zh { font-size: 19px; font-family: Georgia,serif; font-weight: 700; }
-html[lang="en"] .hero-en { font-family: 'PingFang SC',sans-serif; font-size: 12px; color: rgba(255,255,255,.42); font-style: normal; }
+      /* EN mode: flip hero text sizes */
+      html[lang="en"] .hero-zh {
+        font-size: 19px;
+        font-family: Georgia, serif;
+        font-weight: 700;
+      }
+      html[lang="en"] .hero-en {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.42);
+        font-style: normal;
+      }
 
-.continue-card {
-  margin: 0 18px 22px; background: var(--bg-card);
-  border: 1px solid var(--border); border-radius: var(--r-lg);
-  padding: 18px 18px 16px; box-shadow: var(--shadow-md);
-  cursor: pointer; transition: transform .18s;
-}
-.continue-card:active { transform: scale(.99); }
-.cc-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
-.cc-book { font-size: 10.5px; font-weight: 700; letter-spacing: .6px; color: var(--muted-sapphire); }
-.cc-chapter-zh { font-family: 'PingFang SC',sans-serif; font-size: 17px; font-weight: 700; color: var(--deep-navy); margin-bottom: 2px; }
-.cc-chapter-en { font-family: Georgia,serif; font-size: 12px; font-style: italic; color: var(--text-3); margin-bottom: 11px; }
-.cc-summary { font-family: 'PingFang SC',sans-serif; font-size: 13px; line-height: 1.7; color: var(--text-2); background: var(--bg-2); border-left: 3px solid var(--soft-gold); padding: 9px 11px; border-radius: 0 var(--r-sm) var(--r-sm) 0; margin-bottom: 13px; }
-.progress-row { display: flex; align-items: center; gap: 10px; }
-.pbar { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-.pbar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--muted-sapphire), var(--soft-gold)); }
-.pbar-txt { font-size: 10.5px; color: var(--text-3); white-space: nowrap; }
+      .continue-card {
+        margin: 0 18px 22px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 18px 18px 16px;
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+        transition: transform 0.18s;
+      }
+      .continue-card:active {
+        transform: scale(0.99);
+      }
+      .cc-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 9px;
+      }
+      .cc-book {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        color: var(--muted-sapphire);
+      }
+      .cc-chapter-zh {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        margin-bottom: 2px;
+      }
+      .cc-chapter-en {
+        font-family: Georgia, serif;
+        font-size: 12px;
+        font-style: italic;
+        color: var(--text-3);
+        margin-bottom: 11px;
+      }
+      .cc-summary {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--text-2);
+        background: var(--bg-2);
+        border-left: 3px solid var(--soft-gold);
+        padding: 9px 11px;
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        margin-bottom: 13px;
+      }
+      .progress-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .pbar {
+        flex: 1;
+        height: 3px;
+        background: var(--border);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .pbar-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--muted-sapphire),
+          var(--soft-gold)
+        );
+      }
+      .pbar-txt {
+        font-size: 10.5px;
+        color: var(--text-3);
+        white-space: nowrap;
+      }
 
-/* EN mode: swap prominence of chapter title */
-html[lang="en"] .cc-chapter-zh { font-size: 12px; font-weight: 400; color: var(--text-3); font-family: 'PingFang SC',sans-serif; font-style: italic; margin-bottom: 0; }
-html[lang="en"] .cc-chapter-en { font-family: Georgia,serif; font-size: 17px; font-weight: 700; font-style: normal; color: var(--deep-navy); margin-bottom: 11px; }
-html[lang="en"] .cc-summary { font-family: Georgia,serif; }
+      /* EN mode: swap prominence of chapter title */
+      html[lang="en"] .cc-chapter-zh {
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--text-3);
+        font-family: "PingFang SC", sans-serif;
+        font-style: italic;
+        margin-bottom: 0;
+      }
+      html[lang="en"] .cc-chapter-en {
+        font-family: Georgia, serif;
+        font-size: 17px;
+        font-weight: 700;
+        font-style: normal;
+        color: var(--deep-navy);
+        margin-bottom: 11px;
+      }
+      html[lang="en"] .cc-summary {
+        font-family: Georgia, serif;
+      }
 
-.books-row { display: flex; gap: 10px; padding: 0 18px; overflow-x: auto; margin-bottom: 22px; }
-.books-row::-webkit-scrollbar { display: none; }
-.book-chip { flex-shrink: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-md); padding: 11px 14px 10px; text-align: center; cursor: pointer; min-width: 68px; }
-.book-chip-icon { font-size: 18px; margin-bottom: 5px; }
-.book-chip-zh { font-family: 'PingFang SC',sans-serif; font-size: 11.5px; font-weight: 600; color: var(--text-1); display: block; }
-.book-chip-en { font-family: Georgia,serif; font-size: 9.5px; font-style: italic; color: var(--text-3); }
+      .books-row {
+        display: flex;
+        gap: 10px;
+        padding: 0 18px;
+        overflow-x: auto;
+        margin-bottom: 22px;
+      }
+      .books-row::-webkit-scrollbar {
+        display: none;
+      }
+      .book-chip {
+        flex-shrink: 0;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 11px 14px 10px;
+        text-align: center;
+        cursor: pointer;
+        min-width: 68px;
+      }
+      .book-chip-icon {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+      .book-chip-zh {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--text-1);
+        display: block;
+      }
+      .book-chip-en {
+        font-family: Georgia, serif;
+        font-size: 9.5px;
+        font-style: italic;
+        color: var(--text-3);
+      }
 
-.home-feed { padding: 0 18px; }
-.home-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; margin-bottom: 10px; cursor: pointer; }
-.card-user-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.card-user-row .name { font-size: 12px; font-weight: 600; color: var(--text-1); flex: 1; }
-.card-text { font-family: 'PingFang SC','Hiragino Sans GB',sans-serif; font-size: 13px; color: var(--text-2); line-height: 1.7; margin-bottom: 9px; }
-.card-actions { display: flex; gap: 14px; align-items: center; }
-.c-act { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-3); }
+      .home-feed {
+        padding: 0 18px;
+      }
+      .home-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 14px;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+      .card-user-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .card-user-row .name {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-1);
+        flex: 1;
+      }
+      .card-text {
+        font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-size: 13px;
+        color: var(--text-2);
+        line-height: 1.7;
+        margin-bottom: 9px;
+      }
+      .card-actions {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      .c-act {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--text-3);
+      }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━
+      /* ━━━━━━━━━━━━━━━━━━━━━━━━━
    ② READING
 ━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.reading-topbar {
-  padding: 8px 16px; display: flex; align-items: center; gap: 10px;
-  border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;
-}
-.icon-btn { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .15s; flex-shrink: 0; }
-.icon-btn:active { background: var(--sapphire-light); }
-.icon-btn.pill { background: var(--bg-2); }
-.rtb-info { flex: 1; min-width: 0; }
-.rtb-book { font-size: 10.5px; font-weight: 700; letter-spacing: .6px; color: var(--muted-sapphire); }
-.rtb-chapter { font-family: 'PingFang SC',sans-serif; font-size: 13.5px; font-weight: 600; color: var(--text-1); }
-.rtb-tools { display: flex; gap: 6px; }
+      .reading-topbar {
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+        flex-shrink: 0;
+      }
+      .icon-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.15s;
+        flex-shrink: 0;
+      }
+      .icon-btn:active {
+        background: var(--sapphire-light);
+      }
+      .icon-btn.pill {
+        background: var(--bg-2);
+      }
+      .rtb-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .rtb-book {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        color: var(--muted-sapphire);
+      }
+      .rtb-chapter {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text-1);
+      }
+      .rtb-tools {
+        display: flex;
+        gap: 6px;
+      }
 
-.ch-intro { padding: 22px 22px 16px; border-bottom: 1px solid var(--border-light); }
-.ch-eyebrow { font-family: Georgia,serif; font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--soft-gold); margin-bottom: 7px; }
-.ch-title-zh { font-family: 'PingFang SC','Hiragino Sans GB',sans-serif; font-size: 23px; font-weight: 800; color: var(--deep-navy); line-height: 1.3; margin-bottom: 4px; }
-.ch-title-en { font-family: Georgia,serif; font-size: 13px; font-style: italic; color: var(--text-3); margin-bottom: 18px; }
+      .ch-intro {
+        padding: 22px 22px 16px;
+        border-bottom: 1px solid var(--border-light);
+      }
+      .ch-eyebrow {
+        font-family: Georgia, serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--soft-gold);
+        margin-bottom: 7px;
+      }
+      .ch-title-zh {
+        font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-size: 23px;
+        font-weight: 800;
+        color: var(--deep-navy);
+        line-height: 1.3;
+        margin-bottom: 4px;
+      }
+      .ch-title-en {
+        font-family: Georgia, serif;
+        font-size: 13px;
+        font-style: italic;
+        color: var(--text-3);
+        margin-bottom: 18px;
+      }
 
-html[lang="en"] .ch-title-zh { font-size: 13px; font-weight: 400; color: var(--text-3); font-style: italic; margin-bottom: 2px; }
-html[lang="en"] .ch-title-en { font-size: 23px; font-weight: 800; font-style: normal; color: var(--deep-navy); margin-bottom: 18px; line-height: 1.3; }
+      html[lang="en"] .ch-title-zh {
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--text-3);
+        font-style: italic;
+        margin-bottom: 2px;
+      }
+      html[lang="en"] .ch-title-en {
+        font-size: 23px;
+        font-weight: 800;
+        font-style: normal;
+        color: var(--deep-navy);
+        margin-bottom: 18px;
+        line-height: 1.3;
+      }
 
-.summary-card { background: var(--deep-navy); border-radius: var(--r-md); padding: 15px 17px; margin-bottom: 16px; position: relative; overflow: hidden; }
-.summary-card::after { content: '\201C'; position: absolute; right: 14px; top: -6px; font-size: 72px; color: rgba(201,168,76,.1); font-family: Georgia,serif; line-height: 1; pointer-events: none; }
-.sum-lbl { font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft-gold); margin-bottom: 6px; }
-.sum-text { font-family: 'PingFang SC','Hiragino Sans GB',sans-serif; font-size: 13.5px; color: rgba(255,255,255,.9); line-height: 1.7; }
-html[lang="en"] .sum-text { font-family: Georgia,serif; font-size: 13.5px; }
+      .summary-card {
+        background: var(--deep-navy);
+        border-radius: var(--r-md);
+        padding: 15px 17px;
+        margin-bottom: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .summary-card::after {
+        content: "\201C";
+        position: absolute;
+        right: 14px;
+        top: -6px;
+        font-size: 72px;
+        color: rgba(201, 168, 76, 0.1);
+        font-family: Georgia, serif;
+        line-height: 1;
+        pointer-events: none;
+      }
+      .sum-lbl {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--soft-gold);
+        margin-bottom: 6px;
+      }
+      .sum-text {
+        font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-size: 13.5px;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.7;
+      }
+      html[lang="en"] .sum-text {
+        font-family: Georgia, serif;
+        font-size: 13.5px;
+      }
 
-.key-ideas { display: flex; flex-direction: column; gap: 7px; }
-.key-idea { display: flex; align-items: flex-start; gap: 9px; }
-.ki-num { width: 21px; height: 21px; border-radius: 50%; flex-shrink: 0; background: var(--gold-light); border: 1.5px solid var(--soft-gold); display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800; color: var(--soft-gold); margin-top: 1px; }
-.ki-text { font-family: 'PingFang SC',sans-serif; font-size: 12.5px; color: var(--text-2); line-height: 1.65; }
-html[lang="en"] .ki-text { font-family: Georgia,serif; font-size: 12.5px; }
+      .key-ideas {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .key-idea {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+      }
+      .ki-num {
+        width: 21px;
+        height: 21px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: var(--gold-light);
+        border: 1.5px solid var(--soft-gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9.5px;
+        font-weight: 800;
+        color: var(--soft-gold);
+        margin-top: 1px;
+      }
+      .ki-text {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 12.5px;
+        color: var(--text-2);
+        line-height: 1.65;
+      }
+      html[lang="en"] .ki-text {
+        font-family: Georgia, serif;
+        font-size: 12.5px;
+      }
 
-.verse-zone { padding: 0 22px; }
-.vdivider { display: flex; align-items: center; gap: 10px; padding: 18px 0 14px; }
-.vdivider-line { flex: 1; height: 1px; background: var(--border); }
-.vdivider-txt { font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); }
+      .verse-zone {
+        padding: 0 22px;
+      }
+      .vdivider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 18px 0 14px;
+      }
+      .vdivider-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .vdivider-txt {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--text-3);
+      }
 
-.verse-block { margin-bottom: 26px; }
-.verse-num-row { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 7px; }
-.vnum { font-family: Georgia,serif; font-size: 10.5px; font-weight: 700; color: var(--soft-gold); min-width: 21px; padding-top: 3px; letter-spacing: .3px; }
-.vtext-zh { font-family: 'PingFang SC','Hiragino Sans GB',sans-serif; font-size: 17px; font-weight: 500; color: var(--deep-navy); line-height: 1.85; flex: 1; }
-.vtext-en { font-family: Georgia,serif; font-size: 13.5px; color: var(--text-2); line-height: 1.8; font-style: italic; padding-left: 30px; margin-bottom: 10px; }
-html[lang="en"] .vtext-en { padding-left: 0; }
+      .verse-block {
+        margin-bottom: 26px;
+      }
+      .verse-num-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        margin-bottom: 7px;
+      }
+      .vnum {
+        font-family: Georgia, serif;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--soft-gold);
+        min-width: 21px;
+        padding-top: 3px;
+        letter-spacing: 0.3px;
+      }
+      .vtext-zh {
+        font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-size: 17px;
+        font-weight: 500;
+        color: var(--deep-navy);
+        line-height: 1.85;
+        flex: 1;
+      }
+      .vtext-en {
+        font-family: Georgia, serif;
+        font-size: 13.5px;
+        color: var(--text-2);
+        line-height: 1.8;
+        font-style: italic;
+        padding-left: 30px;
+        margin-bottom: 10px;
+      }
+      html[lang="en"] .vtext-en {
+        padding-left: 0;
+      }
 
-.expl-block { margin-left: 30px; background: var(--bg-2); border-left: 3px solid var(--muted-sapphire); border-radius: 0 var(--r-sm) var(--r-sm) 0; padding: 11px 13px; }
-html[lang="en"] .expl-block { margin-left: 30px; }
-.expl-lbl { font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted-sapphire); margin-bottom: 4px; }
-.expl-text { font-family: 'PingFang SC','Hiragino Sans GB',sans-serif; font-size: 12.5px; color: var(--text-2); line-height: 1.72; }
-html[lang="en"] .expl-text { font-family: Georgia,serif; font-size: 12.5px; }
+      .expl-block {
+        margin-left: 30px;
+        background: var(--bg-2);
+        border-left: 3px solid var(--muted-sapphire);
+        border-radius: 0 var(--r-sm) var(--r-sm) 0;
+        padding: 11px 13px;
+      }
+      html[lang="en"] .expl-block {
+        margin-left: 30px;
+      }
+      .expl-lbl {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: var(--muted-sapphire);
+        margin-bottom: 4px;
+      }
+      .expl-text {
+        font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-size: 12.5px;
+        color: var(--text-2);
+        line-height: 1.72;
+      }
+      html[lang="en"] .expl-text {
+        font-family: Georgia, serif;
+        font-size: 12.5px;
+      }
 
-.chapter-done { margin: 8px 18px 22px; background: linear-gradient(140deg,var(--deep-navy) 0%,#1E3558 100%); border-radius: var(--r-xl); padding: 30px 26px; text-align: center; position: relative; overflow: hidden; }
-.done-star { font-size: 30px; margin-bottom: 10px; display: block; }
-.done-title { font-family: 'PingFang SC',sans-serif; font-size: 18px; font-weight: 800; color: white; margin-bottom: 4px; }
-.done-sub { font-family: Georgia,serif; font-size: 12px; font-style: italic; color: rgba(255,255,255,.45); margin-bottom: 22px; }
-.done-btn { display: inline-block; background: var(--soft-gold); color: var(--deep-navy); padding: 12px 26px; border-radius: 26px; font-size: 14px; font-weight: 700; cursor: pointer; }
+      .chapter-done {
+        margin: 8px 18px 22px;
+        background: linear-gradient(140deg, var(--deep-navy) 0%, #1e3558 100%);
+        border-radius: var(--r-xl);
+        padding: 30px 26px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .done-star {
+        font-size: 30px;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .done-title {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 4px;
+      }
+      .done-sub {
+        font-family: Georgia, serif;
+        font-size: 12px;
+        font-style: italic;
+        color: rgba(255, 255, 255, 0.45);
+        margin-bottom: 22px;
+      }
+      .done-btn {
+        display: inline-block;
+        background: var(--soft-gold);
+        color: var(--deep-navy);
+        padding: 12px 26px;
+        border-radius: 26px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━
+      /* ━━━━━━━━━━━━━━━━━━━━━━━━━
    ③ COMMUNITY
 ━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.ref-topbar { padding: 12px 22px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-.ref-title { font-family: 'PingFang SC',sans-serif; font-size: 18px; font-weight: 800; color: var(--deep-navy); margin-bottom: 1px; }
-html[lang="en"] .ref-title { font-family: Georgia,serif; }
-.ref-sub { font-family: Georgia,serif; font-size: 12px; font-style: italic; color: var(--text-3); }
+      .ref-topbar {
+        padding: 12px 22px 14px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+      .ref-title {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--deep-navy);
+        margin-bottom: 1px;
+      }
+      html[lang="en"] .ref-title {
+        font-family: Georgia, serif;
+      }
+      .ref-sub {
+        font-family: Georgia, serif;
+        font-size: 12px;
+        font-style: italic;
+        color: var(--text-3);
+      }
 
-.prompt-card { margin: 16px 18px; background: var(--deep-navy); border-radius: var(--r-lg); padding: 20px; position: relative; overflow: hidden; }
-.prompt-card::after { content: '✦'; position: absolute; right: 18px; bottom: 14px; font-size: 28px; color: rgba(201,168,76,.18); pointer-events: none; }
-.prompt-tag { font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft-gold); margin-bottom: 7px; }
-.prompt-text { font-family: 'PingFang SC','Hiragino Sans GB',sans-serif; font-size: 14.5px; color: white; line-height: 1.65; }
-html[lang="en"] .prompt-text { font-family: Georgia,serif; font-size: 14px; }
+      .prompt-card {
+        margin: 16px 18px;
+        background: var(--deep-navy);
+        border-radius: var(--r-lg);
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+      .prompt-card::after {
+        content: "✦";
+        position: absolute;
+        right: 18px;
+        bottom: 14px;
+        font-size: 28px;
+        color: rgba(201, 168, 76, 0.18);
+        pointer-events: none;
+      }
+      .prompt-tag {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--soft-gold);
+        margin-bottom: 7px;
+      }
+      .prompt-text {
+        font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-size: 14.5px;
+        color: white;
+        line-height: 1.65;
+      }
+      html[lang="en"] .prompt-text {
+        font-family: Georgia, serif;
+        font-size: 14px;
+      }
 
-.journal-wrap { padding: 0 18px; margin-bottom: 20px; }
-.j-lbl { font-size: 10.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
-.j-area { width: 100%; background: var(--bg-card); border: 1.5px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; font-family: 'PingFang SC',sans-serif; font-size: 14px; color: var(--text-1); line-height: 1.65; resize: none; min-height: 88px; outline: none; transition: border-color .2s; }
-.j-area:focus { border-color: var(--muted-sapphire); }
-.j-area::placeholder { color: var(--text-3); }
-.j-row { display: flex; justify-content: flex-end; margin-top: 8px; }
-.j-submit { background: var(--muted-sapphire); color: white; padding: 8px 18px; border-radius: 22px; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+      .journal-wrap {
+        padding: 0 18px;
+        margin-bottom: 20px;
+      }
+      .j-lbl {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin-bottom: 8px;
+      }
+      .j-area {
+        width: 100%;
+        background: var(--bg-card);
+        border: 1.5px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 12px 14px;
+        font-family: "PingFang SC", sans-serif;
+        font-size: 14px;
+        color: var(--text-1);
+        line-height: 1.65;
+        resize: none;
+        min-height: 88px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .j-area:focus {
+        border-color: var(--muted-sapphire);
+      }
+      .j-area::placeholder {
+        color: var(--text-3);
+      }
+      .j-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+      }
+      .j-submit {
+        background: var(--muted-sapphire);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 22px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+      }
 
-.feed-divider { display: flex; align-items: center; gap: 12px; padding: 0 18px; margin-bottom: 14px; }
-.fd-line { flex: 1; height: 1px; background: var(--border); }
-.fd-txt { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-3); }
+      .feed-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 18px;
+        margin-bottom: 14px;
+      }
+      .fd-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .fd-txt {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: var(--text-3);
+      }
 
-.disc-feed { padding: 0 18px; }
-.disc-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; margin-bottom: 11px; }
-.dc-head { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
-.dc-av { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; }
-.dc-av-gold  { background: var(--gold-light); color: var(--soft-gold); }
-.dc-av-blue  { background: var(--sapphire-light); color: var(--muted-sapphire); }
-.dc-av-green { background: #E8F5E9; color: #4CAF50; }
-.dc-info { flex: 1; min-width: 0; }
-.dc-name { font-size: 12.5px; font-weight: 600; color: var(--text-1); }
-.dc-meta { font-size: 10px; color: var(--text-3); }
-.verse-tag { font-size: 9.5px; font-weight: 700; background: var(--gold-light); color: var(--soft-gold); padding: 3px 8px; border-radius: 8px; white-space: nowrap; }
-.dc-text { font-family: 'PingFang SC','Hiragino Sans GB',sans-serif; font-size: 13px; color: var(--text-2); line-height: 1.7; margin-bottom: 10px; }
-.dc-acts { display: flex; gap: 14px; align-items: center; border-top: 1px solid var(--border-light); padding-top: 9px; }
-.dc-act { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-3); cursor: pointer; }
-.dc-act.red { color: #E0534A; }
+      .disc-feed {
+        padding: 0 18px;
+      }
+      .disc-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 14px;
+        margin-bottom: 11px;
+      }
+      .dc-head {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 10px;
+      }
+      .dc-av {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .dc-av-gold {
+        background: var(--gold-light);
+        color: var(--soft-gold);
+      }
+      .dc-av-blue {
+        background: var(--sapphire-light);
+        color: var(--muted-sapphire);
+      }
+      .dc-av-green {
+        background: #e8f5e9;
+        color: #4caf50;
+      }
+      .dc-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .dc-name {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text-1);
+      }
+      .dc-meta {
+        font-size: 10px;
+        color: var(--text-3);
+      }
+      .verse-tag {
+        font-size: 9.5px;
+        font-weight: 700;
+        background: var(--gold-light);
+        color: var(--soft-gold);
+        padding: 3px 8px;
+        border-radius: 8px;
+        white-space: nowrap;
+      }
+      .dc-text {
+        font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+        font-size: 13px;
+        color: var(--text-2);
+        line-height: 1.7;
+        margin-bottom: 10px;
+      }
+      .dc-acts {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        border-top: 1px solid var(--border-light);
+        padding-top: 9px;
+      }
+      .dc-act {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--text-3);
+        cursor: pointer;
+      }
+      .dc-act.red {
+        color: #e0534a;
+      }
 
-.next-cta { margin: 6px 18px 20px; background: var(--bg-card); border: 1.5px solid var(--muted-sapphire); border-radius: var(--r-lg); padding: 15px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-.next-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted-sapphire); margin-bottom: 3px; }
-.next-ch { font-family: 'PingFang SC',sans-serif; font-size: 15px; font-weight: 700; color: var(--deep-navy); }
-html[lang="en"] .next-ch { font-family: Georgia,serif; }
-.next-arrow { width: 36px; height: 36px; background: var(--muted-sapphire); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+      .next-cta {
+        margin: 6px 18px 20px;
+        background: var(--bg-card);
+        border: 1.5px solid var(--muted-sapphire);
+        border-radius: var(--r-lg);
+        padding: 15px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+      }
+      .next-lbl {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--muted-sapphire);
+        margin-bottom: 3px;
+      }
+      .next-ch {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--deep-navy);
+      }
+      html[lang="en"] .next-ch {
+        font-family: Georgia, serif;
+      }
+      .next-arrow {
+        width: 36px;
+        height: 36px;
+        background: var(--muted-sapphire);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━
+      /* ━━━━━━━━━━━━━━━━━━━━━━━━━
    ④ CIRCLES
 ━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.circles-topbar { padding: 12px 22px 16px; flex-shrink: 0; }
-.circles-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
-.circles-title { font-family: 'PingFang SC',sans-serif; font-size: 20px; font-weight: 800; color: var(--deep-navy); }
-html[lang="en"] .circles-title { font-family: Georgia,serif; }
-.prem-badge { font-size: 9.5px; font-weight: 700; letter-spacing: .5px; background: linear-gradient(135deg,var(--soft-gold),#DEB84A); color: var(--deep-navy); padding: 4px 10px; border-radius: 12px; }
-.circles-sub { font-family: 'PingFang SC',sans-serif; font-size: 12.5px; color: var(--text-3); }
+      .circles-topbar {
+        padding: 12px 22px 16px;
+        flex-shrink: 0;
+      }
+      .circles-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 3px;
+      }
+      .circles-title {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--deep-navy);
+      }
+      html[lang="en"] .circles-title {
+        font-family: Georgia, serif;
+      }
+      .prem-badge {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        background: linear-gradient(135deg, var(--soft-gold), #deb84a);
+        color: var(--deep-navy);
+        padding: 4px 10px;
+        border-radius: 12px;
+      }
+      .circles-sub {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 12.5px;
+        color: var(--text-3);
+      }
 
-.prem-card { margin: 0 18px 20px; background: linear-gradient(135deg,#1A2B4A,#243B5F); border-radius: var(--r-lg); padding: 20px; position: relative; overflow: hidden; }
-.prem-card::after { content: '✦'; position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 52px; color: rgba(201,168,76,.1); pointer-events: none; }
-.prem-lbl { font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--soft-gold); margin-bottom: 6px; }
-.prem-title { font-family: 'PingFang SC',sans-serif; font-size: 15.5px; font-weight: 800; color: white; margin-bottom: 12px; }
-html[lang="en"] .prem-title { font-family: Georgia,serif; }
-.prem-feats { display: flex; flex-direction: column; gap: 5px; margin-bottom: 16px; }
-.prem-feat { font-family: 'PingFang SC',sans-serif; font-size: 12px; color: rgba(255,255,255,.8); display: flex; align-items: center; gap: 6px; }
-.prem-feat::before { content: '✦'; color: var(--soft-gold); font-size: 9px; }
-html[lang="en"] .prem-feat { font-family: Georgia,serif; }
-.prem-btn { display: inline-block; background: var(--soft-gold); color: var(--deep-navy); padding: 10px 20px; border-radius: 22px; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+      .prem-card {
+        margin: 0 18px 20px;
+        background: linear-gradient(135deg, #1a2b4a, #243b5f);
+        border-radius: var(--r-lg);
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+      .prem-card::after {
+        content: "✦";
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 52px;
+        color: rgba(201, 168, 76, 0.1);
+        pointer-events: none;
+      }
+      .prem-lbl {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--soft-gold);
+        margin-bottom: 6px;
+      }
+      .prem-title {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 15.5px;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 12px;
+      }
+      html[lang="en"] .prem-title {
+        font-family: Georgia, serif;
+      }
+      .prem-feats {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 16px;
+      }
+      .prem-feat {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.8);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .prem-feat::before {
+        content: "✦";
+        color: var(--soft-gold);
+        font-size: 9px;
+      }
+      html[lang="en"] .prem-feat {
+        font-family: Georgia, serif;
+      }
+      .prem-btn {
+        display: inline-block;
+        background: var(--soft-gold);
+        color: var(--deep-navy);
+        padding: 10px 20px;
+        border-radius: 22px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+      }
 
-.circle-cards { padding: 0 18px; }
-.circle-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px; margin-bottom: 11px; cursor: pointer; }
-.cc-head { display: flex; align-items: center; gap: 12px; margin-bottom: 11px; }
-.cc-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-.cc-icon-navy { background: var(--deep-navy); }
-.cc-icon-gold  { background: var(--gold-light); }
-.cc-name { font-family: 'PingFang SC',sans-serif; font-size: 14.5px; font-weight: 700; color: var(--deep-navy); margin-bottom: 2px; }
-.cc-leader { font-size: 11px; color: var(--text-3); }
-.cc-plan-row { background: var(--bg-2); border-radius: var(--r-sm); padding: 8px 11px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.cc-plan-txt { font-family: 'PingFang SC',sans-serif; font-size: 12px; color: var(--text-2); flex: 1; }
-.cc-plan-prog { font-size: 11px; color: var(--muted-sapphire); font-weight: 700; }
-.cc-stats { display: flex; gap: 16px; }
-.cc-stat { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-3); }
+      .circle-cards {
+        padding: 0 18px;
+      }
+      .circle-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 16px;
+        margin-bottom: 11px;
+        cursor: pointer;
+      }
+      .cc-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 11px;
+      }
+      .cc-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+      }
+      .cc-icon-navy {
+        background: var(--deep-navy);
+      }
+      .cc-icon-gold {
+        background: var(--gold-light);
+      }
+      .cc-name {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 14.5px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        margin-bottom: 2px;
+      }
+      .cc-leader {
+        font-size: 11px;
+        color: var(--text-3);
+      }
+      .cc-plan-row {
+        background: var(--bg-2);
+        border-radius: var(--r-sm);
+        padding: 8px 11px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .cc-plan-txt {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 12px;
+        color: var(--text-2);
+        flex: 1;
+      }
+      .cc-plan-prog {
+        font-size: 11px;
+        color: var(--muted-sapphire);
+        font-weight: 700;
+      }
+      .cc-stats {
+        display: flex;
+        gap: 16px;
+      }
+      .cc-stat {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--text-3);
+      }
 
-.prayer-wrap { padding: 0 18px 16px; }
-.prayer-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 13px 14px; display: flex; gap: 10px; }
-.prayer-ico { font-size: 18px; flex-shrink: 0; }
-.prayer-txt { font-family: 'PingFang SC',sans-serif; font-size: 12.5px; color: var(--text-2); line-height: 1.65; }
-html[lang="en"] .prayer-txt { font-family: Georgia,serif; }
-.prayer-meta { font-size: 10px; color: var(--text-3); margin-top: 4px; }
+      .prayer-wrap {
+        padding: 0 18px 16px;
+      }
+      .prayer-card {
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 13px 14px;
+        display: flex;
+        gap: 10px;
+      }
+      .prayer-ico {
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+      .prayer-txt {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 12.5px;
+        color: var(--text-2);
+        line-height: 1.65;
+      }
+      html[lang="en"] .prayer-txt {
+        font-family: Georgia, serif;
+      }
+      .prayer-meta {
+        font-size: 10px;
+        color: var(--text-3);
+        margin-top: 4px;
+      }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━
+      /* ━━━━━━━━━━━━━━━━━━━━━━━━━
    ⑤ PROFILE
 ━━━━━━━━━━━━━━━━━━━━━━━━━ */
-.prof-hero { background: var(--deep-navy); padding: 20px 22px 18px; flex-shrink: 0; }
-.prof-user-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-.prof-av { width: 58px; height: 58px; border-radius: 50%; background: rgba(201,168,76,.18); border: 2px solid var(--soft-gold); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: var(--soft-gold); flex-shrink: 0; }
-.prof-name { font-family: 'PingFang SC',sans-serif; font-size: 18px; font-weight: 800; color: white; margin-bottom: 2px; }
-.prof-meta { font-size: 11.5px; color: rgba(255,255,255,.45); }
-.prof-stats { display: flex; }
-.ps { flex: 1; text-align: center; padding: 10px 0; border-right: 1px solid rgba(255,255,255,.1); }
-.ps:last-child { border-right: none; }
-.ps-num { font-family: Georgia,serif; font-size: 22px; font-weight: 700; color: white; display: block; }
-.ps-lbl { font-family: 'PingFang SC',sans-serif; font-size: 10px; color: rgba(255,255,255,.45); }
+      .prof-hero {
+        background: var(--deep-navy);
+        padding: 20px 22px 18px;
+        flex-shrink: 0;
+      }
+      .prof-user-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .prof-av {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: rgba(201, 168, 76, 0.18);
+        border: 2px solid var(--soft-gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--soft-gold);
+        flex-shrink: 0;
+      }
+      .prof-name {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 2px;
+      }
+      .prof-meta {
+        font-size: 11.5px;
+        color: rgba(255, 255, 255, 0.45);
+      }
+      .prof-stats {
+        display: flex;
+      }
+      .ps {
+        flex: 1;
+        text-align: center;
+        padding: 10px 0;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .ps:last-child {
+        border-right: none;
+      }
+      .ps-num {
+        font-family: Georgia, serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: white;
+        display: block;
+      }
+      .ps-lbl {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.45);
+      }
 
-.s-section { margin-top: 18px; }
-.s-sec-title { font-size: 10.5px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; color: var(--text-3); padding: 0 22px 8px; }
-.s-group { background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.s-row { display: flex; align-items: center; padding: 13px 22px; border-bottom: 1px solid var(--border-light); cursor: pointer; transition: background .12s; gap: 12px; }
-.s-row:last-child { border-bottom: none; }
-.s-row:active { background: var(--bg-2); }
-.s-ico { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-.s-label { font-family: 'PingFang SC',sans-serif; font-size: 14px; color: var(--text-1); flex: 1; font-weight: 500; }
-html[lang="en"] .s-label { font-family: -apple-system,sans-serif; }
-.s-value { font-size: 12.5px; color: var(--text-3); margin-right: 4px; }
-.s-chev { color: var(--text-3); flex-shrink: 0; }
-.s-toggle { width: 46px; height: 27px; border-radius: 14px; position: relative; transition: background .2s; flex-shrink: 0; }
-.s-toggle.on  { background: var(--muted-sapphire); }
-.s-toggle.off { background: #D1D1D6; }
-.s-toggle::after { content:''; position: absolute; top: 3px; width: 21px; height: 21px; border-radius: 50%; background: white; box-shadow: 0 1px 4px rgba(0,0,0,.25); transition: right .2s; }
-.s-toggle.on::after  { right: 3px; }
-.s-toggle.off::after { right: 22px; }
+      .s-section {
+        margin-top: 18px;
+      }
+      .s-sec-title {
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 1.3px;
+        text-transform: uppercase;
+        color: var(--text-3);
+        padding: 0 22px 8px;
+      }
+      .s-group {
+        background: var(--bg-card);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .s-row {
+        display: flex;
+        align-items: center;
+        padding: 13px 22px;
+        border-bottom: 1px solid var(--border-light);
+        cursor: pointer;
+        transition: background 0.12s;
+        gap: 12px;
+      }
+      .s-row:last-child {
+        border-bottom: none;
+      }
+      .s-row:active {
+        background: var(--bg-2);
+      }
+      .s-ico {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      .s-label {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 14px;
+        color: var(--text-1);
+        flex: 1;
+        font-weight: 500;
+      }
+      html[lang="en"] .s-label {
+        font-family: -apple-system, sans-serif;
+      }
+      .s-value {
+        font-size: 12.5px;
+        color: var(--text-3);
+        margin-right: 4px;
+      }
+      .s-chev {
+        color: var(--text-3);
+        flex-shrink: 0;
+      }
+      .s-toggle {
+        width: 46px;
+        height: 27px;
+        border-radius: 14px;
+        position: relative;
+        transition: background 0.2s;
+        flex-shrink: 0;
+      }
+      .s-toggle.on {
+        background: var(--muted-sapphire);
+      }
+      .s-toggle.off {
+        background: #d1d1d6;
+      }
+      .s-toggle::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        width: 21px;
+        height: 21px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+        transition: right 0.2s;
+      }
+      .s-toggle.on::after {
+        right: 3px;
+      }
+      .s-toggle.off::after {
+        right: 22px;
+      }
 
-.s-opt { display: flex; align-items: center; padding: 12px 22px; border-bottom: 1px solid var(--border-light); cursor: pointer; gap: 10px; }
-.s-opt:last-child { border-bottom: none; }
-.s-opt-text { flex: 1; }
-.s-opt-main { font-family: 'PingFang SC',sans-serif; font-size: 13.5px; color: var(--text-1); font-weight: 500; }
-html[lang="en"] .s-opt-main { font-family: -apple-system,sans-serif; }
-.s-opt-sub { font-family: Georgia,serif; font-size: 11px; font-style: italic; color: var(--text-3); }
+      .s-opt {
+        display: flex;
+        align-items: center;
+        padding: 12px 22px;
+        border-bottom: 1px solid var(--border-light);
+        cursor: pointer;
+        gap: 10px;
+      }
+      .s-opt:last-child {
+        border-bottom: none;
+      }
+      .s-opt-text {
+        flex: 1;
+      }
+      .s-opt-main {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 13.5px;
+        color: var(--text-1);
+        font-weight: 500;
+      }
+      html[lang="en"] .s-opt-main {
+        font-family: -apple-system, sans-serif;
+      }
+      .s-opt-sub {
+        font-family: Georgia, serif;
+        font-size: 11px;
+        font-style: italic;
+        color: var(--text-3);
+      }
 
-.tsize-row { display: flex; gap: 8px; padding: 10px 22px 14px; background: var(--bg-card); border-bottom: 1px solid var(--border-light); }
-.tsz { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: var(--r-sm); text-align: center; cursor: pointer; transition: all .2s; }
-.tsz.on { border-color: var(--muted-sapphire); background: var(--sapphire-light); }
-.tsz-preview { display: block; color: var(--text-1); line-height: 1; margin-bottom: 4px; }
-.tsz-lbl { font-size: 10.5px; font-weight: 500; color: var(--text-3); }
-.tsz.on .tsz-lbl { color: var(--muted-sapphire); font-weight: 700; }
+      .tsize-row {
+        display: flex;
+        gap: 8px;
+        padding: 10px 22px 14px;
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border-light);
+      }
+      .tsz {
+        flex: 1;
+        padding: 9px 6px;
+        border: 1.5px solid var(--border);
+        border-radius: var(--r-sm);
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .tsz.on {
+        border-color: var(--muted-sapphire);
+        background: var(--sapphire-light);
+      }
+      .tsz-preview {
+        display: block;
+        color: var(--text-1);
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .tsz-lbl {
+        font-size: 10.5px;
+        font-weight: 500;
+        color: var(--text-3);
+      }
+      .tsz.on .tsz-lbl {
+        color: var(--muted-sapphire);
+        font-weight: 700;
+      }
 
-.slider-row { padding: 11px 22px 13px; background: var(--bg-card); border-bottom: 1px solid var(--border-light); }
-.sl-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px; }
-.sl-lbl { font-family: 'PingFang SC',sans-serif; font-size: 13.5px; color: var(--text-1); }
-html[lang="en"] .sl-lbl { font-family: -apple-system,sans-serif; }
-.sl-val { font-size: 12px; color: var(--muted-sapphire); font-weight: 700; }
-.sl-track { height: 4px; background: var(--border); border-radius: 2px; position: relative; }
-.sl-fill { height: 100%; background: var(--muted-sapphire); border-radius: 2px; }
-.sl-thumb { position: absolute; top: 50%; width: 18px; height: 18px; border-radius: 50%; background: white; border: 2px solid var(--muted-sapphire); box-shadow: var(--shadow-sm); transform: translate(-50%,-50%); }
-
-</style>
-</head>
-<body>
-<div class="device-wrap">
-<div class="phone">
-
-  <!-- STATUS BAR -->
-  <div class="status-bar">
-    <span class="status-time">9:41</span>
-    <div class="status-icons">
-      <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
-        <rect x="0"  y="5"  width="3" height="7"  rx="1" fill="#1A2B4A" opacity=".3"/>
-        <rect x="4"  y="3"  width="3" height="9"  rx="1" fill="#1A2B4A" opacity=".5"/>
-        <rect x="8"  y="1"  width="3" height="11" rx="1" fill="#1A2B4A" opacity=".75"/>
-        <rect x="12" y="0"  width="3" height="12" rx="1" fill="#1A2B4A"/>
-      </svg>
-      <svg width="16" height="12" viewBox="0 0 16 12" fill="#1A2B4A">
-        <path d="M8 9.5a1.2 1.2 0 1 1 0 2.4A1.2 1.2 0 0 1 8 9.5zm0-3.2c1.4 0 2.66.56 3.58 1.46l1.2-1.2A6.67 6.67 0 0 0 8 4.3a6.67 6.67 0 0 0-4.78 2.26l1.2 1.2A4.67 4.67 0 0 1 8 6.3zm0-3.8c2.34 0 4.46.94 6 2.46l1.2-1.2A9.33 9.33 0 0 0 8 .5 9.33 9.33 0 0 0 .8 3.76L2 4.96A7.33 7.33 0 0 1 8 2.5z"/>
-      </svg>
-      <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
-        <rect x=".5" y=".5" width="21" height="11" rx="3.5" stroke="#1A2B4A" stroke-opacity=".35"/>
-        <rect x="2" y="2" width="16" height="8" rx="2" fill="#1A2B4A"/>
-        <path d="M23 4v4a2 2 0 0 0 0-4z" fill="#1A2B4A" opacity=".4"/>
-      </svg>
-    </div>
-  </div>
-
-  <div class="screens">
-
-    <!-- ━━━━━━━━━━━━━━ ① HOME ━━━━━━━━━━━━━━ -->
-    <div class="screen active" id="screen-home">
-      <div class="scroll">
-
-        <div class="home-topbar">
-          <div class="wordmark">Bibl<em>e</em>ly</div>
-          <div class="lang-pill">
-            <div class="lang-btn on" id="btn-zh" onclick="setLang('zh')">中文</div>
-            <div class="lang-btn"   id="btn-en" onclick="setLang('en')">EN</div>
-          </div>
-        </div>
-
-        <!-- Hero -->
-        <div class="hero-card">
-          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.045;pointer-events:none" viewBox="0 0 340 170" preserveAspectRatio="none">
-            <line x1="56"  y1="0"  x2="56"  y2="170" stroke="white" stroke-width="2"/>
-            <line x1="112" y1="0"  x2="112" y2="170" stroke="white" stroke-width="1"/>
-            <line x1="168" y1="0"  x2="168" y2="170" stroke="white" stroke-width="2"/>
-            <line x1="224" y1="0"  x2="224" y2="170" stroke="white" stroke-width="1"/>
-            <line x1="280" y1="0"  x2="280" y2="170" stroke="white" stroke-width="2"/>
-            <line x1="0"   y1="42" x2="340" y2="42"  stroke="white" stroke-width="1"/>
-            <line x1="0"   y1="84" x2="340" y2="84"  stroke="white" stroke-width="2"/>
-            <line x1="0"   y1="126" x2="340" y2="126" stroke="white" stroke-width="1"/>
-            <path d="M280 0 Q310 60 280 120" stroke="white" stroke-width="1" fill="none"/>
-            <path d="M300 0 Q340 70 300 140" stroke="white" stroke-width="1.5" fill="none"/>
-          </svg>
-          <div class="hero-eyebrow">Biblely</div>
-          <div class="hero-zh"   data-zh="不再让任何一句经文<br>被轻易翻过。"
-                                 data-en="Never skip another<br>line of scripture.">不再让任何一句经文<br>被轻易翻过。</div>
-          <div class="hero-en"   data-zh="Never skip another line of scripture."
-                                 data-en="不再让任何一句经文被轻易翻过。">Never skip another line of scripture.</div>
-          <div class="hero-btn"  data-zh="继续阅读" data-en="Continue Reading" onclick="go('read')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
-            继续阅读
-          </div>
-        </div>
-
-        <div class="sec-title" data-zh="继续阅读" data-en="Continue Reading">继续阅读</div>
-        <div class="continue-card" onclick="go('read')">
-          <div class="cc-meta">
-            <div class="cc-book">约翰福音 · JOHN</div>
-            <div class="badge badge-sapphire" data-zh="第 3 章" data-en="Chapter 3">第 3 章</div>
-          </div>
-          <div class="cc-chapter-zh" data-zh="约翰福音 第三章"         data-en="约翰福音 第三章">约翰福音 第三章</div>
-          <div class="cc-chapter-en" data-zh="John Chapter 3 — The New Birth" data-en="John Chapter 3 — The New Birth">John Chapter 3 — The New Birth</div>
-          <div class="cc-summary"
-               data-zh="耶稣向尼哥底母讲述重生的意义，揭示神差遣独生子来到世间的救恩计划。"
-               data-en="Jesus explains the meaning of being born again to Nicodemus, revealing God's plan of salvation through His one and only Son.">
-            耶稣向尼哥底母讲述重生的意义，揭示神差遣独生子来到世间的救恩计划。
-          </div>
-          <div class="progress-row">
-            <div class="pbar"><div class="pbar-fill" style="width:42%"></div></div>
-            <div class="pbar-txt" data-zh="节 15 / 36" data-en="Verse 15 / 36">节 15 / 36</div>
-          </div>
-        </div>
-
-        <div class="sec-title" data-zh="近期书卷" data-en="Recent Books">近期书卷</div>
-        <div class="books-row">
-          <div class="book-chip">
-            <div class="book-chip-icon">✦</div>
-            <span class="book-chip-zh">约翰福音</span>
-            <span class="book-chip-en">John</span>
-          </div>
-          <div class="book-chip">
-            <div class="book-chip-icon">✦</div>
-            <span class="book-chip-zh">诗篇</span>
-            <span class="book-chip-en">Psalms</span>
-          </div>
-          <div class="book-chip">
-            <div class="book-chip-icon">✦</div>
-            <span class="book-chip-zh">罗马书</span>
-            <span class="book-chip-en">Romans</span>
-          </div>
-          <div class="book-chip">
-            <div class="book-chip-icon">✦</div>
-            <span class="book-chip-zh">创世记</span>
-            <span class="book-chip-en">Genesis</span>
-          </div>
-          <div class="book-chip">
-            <div class="book-chip-icon">✦</div>
-            <span class="book-chip-zh">马太福音</span>
-            <span class="book-chip-en">Matthew</span>
-          </div>
-        </div>
-
-        <div class="sec-title" data-zh="热门灵想" data-en="Trending Reflections">热门灵想</div>
-        <div class="home-feed">
-          <div class="home-card" onclick="go('community')">
-            <div class="card-user-row">
-              <div class="dc-av dc-av-gold" style="width:28px;height:28px;font-size:11px">恩</div>
-              <div class="name">Grace Sister</div>
-              <div class="badge badge-sapphire">John 3:16</div>
-            </div>
-            <div class="card-text"
-                 data-zh="神爱世人，这不只是一句口号，而是一个行动。当我在最低谷的时候，这节经文像一道光照进来——祂爱的不是完美的我，而是真实的我。"
-                 data-en='"God so loved the world" — not a slogan, but an action. When I was at my lowest, this verse felt like light breaking through. He loves not the perfect me, but the real me.'>
-              神爱世人，这不只是一句口号，而是一个行动。当我在最低谷的时候，这节经文像一道光照进来——祂爱的不是完美的我，而是真实的我。
-            </div>
-            <div class="card-actions">
-              <div class="c-act"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>248</div>
-              <div class="c-act"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>32</div>
-            </div>
-          </div>
-          <div class="home-card" onclick="go('community')">
-            <div class="card-user-row">
-              <div class="dc-av dc-av-blue" style="width:28px;height:28px;font-size:11px">P</div>
-              <div class="name">Walking with Peter</div>
-              <div class="badge badge-sapphire">John 3:3</div>
-            </div>
-            <div class="card-text"
-                 data-zh="重生，不是重新来过，而是从神而生。尼哥底母的困惑是我们所有人的困惑，那个夜晚的对话，跨越两千年仍在回响。"
-                 data-en="Born again — not starting over, but born from above. Nicodemus' confusion is everyone's confusion. That midnight conversation still echoes two thousand years later.">
-              重生，不是重新来过，而是从神而生。尼哥底母的困惑是我们所有人的困惑，那个夜晚的对话，跨越两千年仍在回响。
-            </div>
-            <div class="card-actions">
-              <div class="c-act"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>187</div>
-              <div class="c-act"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>19</div>
-            </div>
-          </div>
-        </div>
-        <div style="height:22px"></div>
-      </div>
-    </div>
-
-    <!-- ━━━━━━━━━━━━━━ ② READING ━━━━━━━━━━━━━━ -->
-    <div class="screen" id="screen-read">
-      <div class="reading-topbar">
-        <div class="icon-btn" onclick="go('home')">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A2B4A" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
-        </div>
-        <div class="rtb-info">
-          <div class="rtb-book">约翰福音 · JOHN</div>
-          <div class="rtb-chapter" data-zh="第三章 · Chapter 3" data-en="Chapter 3 · 第三章">第三章 · Chapter 3</div>
-        </div>
-        <div class="rtb-tools">
-          <div class="icon-btn pill"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4A6FA5" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div>
-          <div class="icon-btn pill"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4A6FA5" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
-        </div>
-      </div>
-
-      <div class="scroll">
-        <div class="ch-intro">
-          <div class="ch-eyebrow">John · 约翰福音 · Chapter 3</div>
-          <div class="ch-title-zh" data-zh="与尼哥底母的对话"         data-en="与尼哥底母的对话">与尼哥底母的对话</div>
-          <div class="ch-title-en" data-zh="The Conversation with Nicodemus" data-en="The Conversation with Nicodemus">The Conversation with Nicodemus</div>
-
-          <div class="summary-card">
-            <div class="sum-lbl" data-zh="本章摘要 · Chapter Summary" data-en="Chapter Summary · 本章摘要">本章摘要 · Chapter Summary</div>
-            <div class="sum-text"
-                 data-zh="耶稣向法利赛人尼哥底母解释，人必须「从圣灵重生」才能进入神的国度，并揭示神对世人无条件的爱与救恩计划。"
-                 data-en="Jesus explains to Nicodemus the Pharisee that one must be &ldquo;born of the Spirit&rdquo; to enter God&rsquo;s kingdom, and reveals God&rsquo;s unconditional love and plan of salvation for the world.">
-              耶稣向法利赛人尼哥底母解释，人必须「从圣灵重生」才能进入神的国度，并揭示神对世人无条件的爱与救恩计划。
-            </div>
-          </div>
-
-          <div class="key-ideas">
-            <div class="key-idea">
-              <div class="ki-num">1</div>
-              <div class="ki-text" data-zh="重生不是肉体的重复，而是圣灵的更新与改变" data-en="Being born again is not physical repetition — it is renewal and transformation by the Spirit.">重生不是肉体的重复，而是圣灵的更新与改变</div>
-            </div>
-            <div class="key-idea">
-              <div class="ki-num">2</div>
-              <div class="ki-text" data-zh="神爱世人的核心彰显：差遣独生子使人得救" data-en="God's love for the world is shown by sending His one and only Son to bring salvation.">神爱世人的核心彰显：差遣独生子使人得救</div>
-            </div>
-            <div class="key-idea">
-              <div class="ki-num">3</div>
-              <div class="ki-text" data-zh="光与暗的对比：人来就光，还是逃避真理" data-en="The contrast of light and darkness: do we come into the light, or flee from truth?">光与暗的对比：人来就光，还是逃避真理</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="verse-zone">
-          <div class="vdivider">
-            <div class="vdivider-line"></div>
-            <div class="vdivider-txt" data-zh="逐节阅读 · VERSE BY VERSE" data-en="VERSE BY VERSE · 逐节阅读">逐节阅读 · VERSE BY VERSE</div>
-            <div class="vdivider-line"></div>
-          </div>
-
-          <!-- Verse 1 -->
-          <div class="verse-block">
-            <div class="verse-num-row">
-              <div class="vnum">1</div>
-              <div class="vtext-zh">有一个法利赛人，名叫尼哥底母，是犹太人的官。</div>
-            </div>
-            <div class="vtext-en">Now there was a Pharisee, a man named Nicodemus who was a member of the Jewish ruling council.</div>
-            <div class="expl-block">
-              <div class="expl-lbl" data-zh="理解 · UNDERSTAND" data-en="UNDERSTAND · 理解">理解 · UNDERSTAND</div>
-              <div class="expl-text"
-                   data-zh="尼哥底母是当时社会地位极高的宗教领袖，属于掌权阶层。他来找耶稣，本身已经是一件不寻常的事——权贵向木匠的儿子寻求答案。"
-                   data-en="Nicodemus was a high-ranking religious leader with great social status. The fact that he came to Jesus at all was remarkable — a man of power seeking answers from a carpenter's son.">
-                尼哥底母是当时社会地位极高的宗教领袖，属于掌权阶层。他来找耶稣，本身已经是一件不寻常的事——权贵向木匠的儿子寻求答案。
-              </div>
-            </div>
-          </div>
-
-          <!-- Verse 2 -->
-          <div class="verse-block">
-            <div class="verse-num-row">
-              <div class="vnum">2</div>
-              <div class="vtext-zh">这人夜里来见耶稣，说：「拉比，我们知道你是由神那里来做师傅的；因为你所行的神迹，若没有神同在，无人能行。」</div>
-            </div>
-            <div class="vtext-en">He came to Jesus at night and said, "Rabbi, we know that you are a teacher who has come from God. For no one could perform the signs you are doing if God were not with him."</div>
-            <div class="expl-block">
-              <div class="expl-lbl" data-zh="理解 · UNDERSTAND" data-en="UNDERSTAND · 理解">理解 · UNDERSTAND</div>
-              <div class="expl-text"
-                   data-zh="他「夜里」来，可能是为了避开同僚的眼光，也可能是选择一个安静可以深谈的时机。他承认耶稣来自神，但还未理解耶稣真正的身份。这是一段求知的对话，而非对抗。"
-                   data-en="He came &ldquo;at night&rdquo; — perhaps to avoid the eyes of his peers, or to find a quiet moment for deep conversation. He acknowledged Jesus came from God, but hadn&rsquo;t yet grasped who Jesus truly was. This is a conversation of seeking, not confrontation.">
-                他「夜里」来，可能是为了避开同僚的眼光，也可能是选择一个安静可以深谈的时机。他承认耶稣来自神，但还未理解耶稣真正的身份。这是一段求知的对话，而非对抗。
-              </div>
-            </div>
-          </div>
-
-          <!-- Verse 3 -->
-          <div class="verse-block">
-            <div class="verse-num-row">
-              <div class="vnum">3</div>
-              <div class="vtext-zh">耶稣回答说：「我实实在在地告诉你，人若不重生，就不能见神的国。」</div>
-            </div>
-            <div class="vtext-en">Jesus replied, "Very truly I tell you, no one can see the kingdom of God unless they are born again."</div>
-            <div class="expl-block">
-              <div class="expl-lbl" data-zh="理解 · UNDERSTAND" data-en="UNDERSTAND · 理解">理解 · UNDERSTAND</div>
-              <div class="expl-text"
-                   data-zh="耶稣没有直接回应赞美，而是立刻切入核心：真正认识神需要一种全新的生命状态。「重生」在原文有「从上而生」的含义，不是人可以靠自己努力完成的，而是来自神的更新。"
-                   data-en='Jesus skipped the praise and went straight to the heart: truly knowing God requires an entirely new state of life. "Born again" in the original language carries the meaning of "born from above" — something no human effort can achieve, only God&rsquo;s renewal.'>
-                耶稣没有直接回应赞美，而是立刻切入核心：真正认识神需要一种全新的生命状态。「重生」在原文有「从上而生」的含义，不是人可以靠自己努力完成的，而是来自神的更新。
-              </div>
-            </div>
-          </div>
-
-          <!-- Verse 16 -->
-          <div class="verse-block">
-            <div class="verse-num-row">
-              <div class="vnum">16</div>
-              <div class="vtext-zh">「神爱世人，甚至将他的独生子赐给他们，叫一切信他的，不至灭亡，反得永生。」</div>
-            </div>
-            <div class="vtext-en">"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."</div>
-            <div class="expl-block">
-              <div class="expl-lbl" data-zh="理解 · UNDERSTAND" data-en="UNDERSTAND · 理解">理解 · UNDERSTAND</div>
-              <div class="expl-text"
-                   data-zh="这是整本圣经最广为人知的一节。神爱的对象是「世人」——不分种族、背景、身份。「赐给」意味着完全的给予，而非借用。信祂的结果不是短暂的恩宠，而是永恒的生命。"
-                   data-en="The most recognized verse in all of Scripture. God&rsquo;s love extends to &ldquo;the world&rdquo; — no barrier of race, background, or status. &ldquo;Gave&rdquo; means complete surrender, not a loan. Believing in Him brings not fleeting blessing but eternal life.">
-                这是整本圣经最广为人知的一节。神爱的对象是「世人」——不分种族、背景、身份。「赐给」意味着完全的给予，而非借用。信祂的结果不是短暂的恩宠，而是永恒的生命。
-              </div>
-            </div>
-          </div>
-
-          <div class="chapter-done">
-            <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.04;pointer-events:none" viewBox="0 0 340 220" preserveAspectRatio="none">
-              <line x1="68"  y1="0" x2="68"  y2="220" stroke="white" stroke-width="2"/>
-              <line x1="136" y1="0" x2="136" y2="220" stroke="white" stroke-width="1"/>
-              <line x1="204" y1="0" x2="204" y2="220" stroke="white" stroke-width="2"/>
-              <line x1="272" y1="0" x2="272" y2="220" stroke="white" stroke-width="1"/>
-              <line x1="0"   y1="55" x2="340" y2="55"  stroke="white" stroke-width="1"/>
-              <line x1="0"   y1="110" x2="340" y2="110" stroke="white" stroke-width="2"/>
-              <path d="M170 0 Q250 110 170 220" stroke="white" stroke-width="1.5" fill="none"/>
-              <path d="M170 0 Q90 110 170 220"  stroke="white" stroke-width="1.5" fill="none"/>
+      .slider-row {
+        padding: 11px 22px 13px;
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border-light);
+      }
+      .sl-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 9px;
+      }
+      .sl-lbl {
+        font-family: "PingFang SC", sans-serif;
+        font-size: 13.5px;
+        color: var(--text-1);
+      }
+      html[lang="en"] .sl-lbl {
+        font-family: -apple-system, sans-serif;
+      }
+      .sl-val {
+        font-size: 12px;
+        color: var(--muted-sapphire);
+        font-weight: 700;
+      }
+      .sl-track {
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        position: relative;
+      }
+      .sl-fill {
+        height: 100%;
+        background: var(--muted-sapphire);
+        border-radius: 2px;
+      }
+      .sl-thumb {
+        position: absolute;
+        top: 50%;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: white;
+        border: 2px solid var(--muted-sapphire);
+        box-shadow: var(--shadow-sm);
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="device-wrap">
+      <div class="phone">
+        <!-- STATUS BAR -->
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
+              <rect
+                x="0"
+                y="5"
+                width="3"
+                height="7"
+                rx="1"
+                fill="#1A2B4A"
+                opacity=".3"
+              />
+              <rect
+                x="4"
+                y="3"
+                width="3"
+                height="9"
+                rx="1"
+                fill="#1A2B4A"
+                opacity=".5"
+              />
+              <rect
+                x="8"
+                y="1"
+                width="3"
+                height="11"
+                rx="1"
+                fill="#1A2B4A"
+                opacity=".75"
+              />
+              <rect x="12" y="0" width="3" height="12" rx="1" fill="#1A2B4A" />
             </svg>
-            <span class="done-star">✦</span>
-            <div class="done-title" data-zh="本章阅读完成"        data-en="Chapter Complete">本章阅读完成</div>
-            <div class="done-sub">John Chapter 3 · Completed</div>
-            <div class="done-btn" data-zh="写下你的灵想 →" data-en="Write Your Reflection →" onclick="go('community')">写下你的灵想 →</div>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="#1A2B4A">
+              <path
+                d="M8 9.5a1.2 1.2 0 1 1 0 2.4A1.2 1.2 0 0 1 8 9.5zm0-3.2c1.4 0 2.66.56 3.58 1.46l1.2-1.2A6.67 6.67 0 0 0 8 4.3a6.67 6.67 0 0 0-4.78 2.26l1.2 1.2A4.67 4.67 0 0 1 8 6.3zm0-3.8c2.34 0 4.46.94 6 2.46l1.2-1.2A9.33 9.33 0 0 0 8 .5 9.33 9.33 0 0 0 .8 3.76L2 4.96A7.33 7.33 0 0 1 8 2.5z"
+              />
+            </svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+              <rect
+                x=".5"
+                y=".5"
+                width="21"
+                height="11"
+                rx="3.5"
+                stroke="#1A2B4A"
+                stroke-opacity=".35"
+              />
+              <rect x="2" y="2" width="16" height="8" rx="2" fill="#1A2B4A" />
+              <path d="M23 4v4a2 2 0 0 0 0-4z" fill="#1A2B4A" opacity=".4" />
+            </svg>
           </div>
         </div>
-        <div style="height:24px"></div>
+
+        <div class="screens">
+          <!-- ━━━━━━━━━━━━━━ ① HOME ━━━━━━━━━━━━━━ -->
+          <div class="screen active" id="screen-home">
+            <div class="scroll">
+              <div class="home-topbar">
+                <div class="wordmark">Bibl<em>e</em>ly</div>
+                <div class="lang-pill">
+                  <div class="lang-btn" id="btn-zh" onclick="setLang('zh')">
+                    中文
+                  </div>
+                  <div class="lang-btn on" id="btn-en" onclick="setLang('en')">
+                    EN
+                  </div>
+                </div>
+              </div>
+
+              <!-- Hero -->
+              <div class="hero-card">
+                <svg
+                  style="
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0.045;
+                    pointer-events: none;
+                  "
+                  viewBox="0 0 340 170"
+                  preserveAspectRatio="none"
+                >
+                  <line
+                    x1="56"
+                    y1="0"
+                    x2="56"
+                    y2="170"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                  <line
+                    x1="112"
+                    y1="0"
+                    x2="112"
+                    y2="170"
+                    stroke="white"
+                    stroke-width="1"
+                  />
+                  <line
+                    x1="168"
+                    y1="0"
+                    x2="168"
+                    y2="170"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                  <line
+                    x1="224"
+                    y1="0"
+                    x2="224"
+                    y2="170"
+                    stroke="white"
+                    stroke-width="1"
+                  />
+                  <line
+                    x1="280"
+                    y1="0"
+                    x2="280"
+                    y2="170"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                  <line
+                    x1="0"
+                    y1="42"
+                    x2="340"
+                    y2="42"
+                    stroke="white"
+                    stroke-width="1"
+                  />
+                  <line
+                    x1="0"
+                    y1="84"
+                    x2="340"
+                    y2="84"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                  <line
+                    x1="0"
+                    y1="126"
+                    x2="340"
+                    y2="126"
+                    stroke="white"
+                    stroke-width="1"
+                  />
+                  <path
+                    d="M280 0 Q310 60 280 120"
+                    stroke="white"
+                    stroke-width="1"
+                    fill="none"
+                  />
+                  <path
+                    d="M300 0 Q340 70 300 140"
+                    stroke="white"
+                    stroke-width="1.5"
+                    fill="none"
+                  />
+                </svg>
+                <div class="hero-eyebrow">Biblely</div>
+                <div
+                  class="hero-zh"
+                  data-zh="不再让任何一句经文<br>被轻易翻过。"
+                  data-en="Never skip another<br>line of scripture."
+                >
+                  不再让任何一句经文<br />被轻易翻过。
+                </div>
+                <div
+                  class="hero-en"
+                  data-zh="Never skip another line of scripture."
+                  data-en="不再让任何一句经文被轻易翻过。"
+                >
+                  Never skip another line of scripture.
+                </div>
+                <div
+                  class="hero-btn"
+                  data-zh="继续阅读"
+                  data-en="Continue Reading"
+                  onclick="go('read')"
+                >
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <polygon points="5,3 19,12 5,21" />
+                  </svg>
+                  继续阅读
+                </div>
+              </div>
+
+              <div
+                class="sec-title"
+                data-zh="继续阅读"
+                data-en="Continue Reading"
+              >
+                继续阅读
+              </div>
+              <div class="continue-card" onclick="go('read')">
+                <div class="cc-meta">
+                  <div class="cc-book" data-zh="约翰福音 · JOHN" data-en="JOHN">约翰福音 · JOHN</div>
+                  <div
+                    class="badge badge-sapphire"
+                    data-zh="第 3 章"
+                    data-en="Chapter 3"
+                  >
+                    第 3 章
+                  </div>
+                </div>
+                <div
+                  class="cc-chapter-zh"
+                  data-zh="约翰福音 第三章"
+                  data-en="约翰福音 第三章"
+                >
+                  约翰福音 第三章
+                </div>
+                <div
+                  class="cc-chapter-en"
+                  data-zh="John Chapter 3 — The New Birth"
+                  data-en="John Chapter 3 — The New Birth"
+                >
+                  John Chapter 3 — The New Birth
+                </div>
+                <div
+                  class="cc-summary"
+                  data-zh="耶稣向尼哥底母讲述重生的意义，揭示神差遣独生子来到世间的救恩计划。"
+                  data-en="Jesus explains the meaning of being born again to Nicodemus, revealing God's plan of salvation through His one and only Son."
+                >
+                  耶稣向尼哥底母讲述重生的意义，揭示神差遣独生子来到世间的救恩计划。
+                </div>
+                <div class="progress-row">
+                  <div class="pbar">
+                    <div class="pbar-fill" style="width: 42%"></div>
+                  </div>
+                  <div
+                    class="pbar-txt"
+                    data-zh="节 15 / 36"
+                    data-en="Verse 15 / 36"
+                  >
+                    节 15 / 36
+                  </div>
+                </div>
+              </div>
+
+              <div class="sec-title" data-zh="近期书卷" data-en="Recent Books">
+                近期书卷
+              </div>
+              <div class="books-row">
+                <div class="book-chip">
+                  <div class="book-chip-icon">✦</div>
+                  <span class="book-chip-zh">约翰福音</span>
+                  <span class="book-chip-en">John</span>
+                </div>
+                <div class="book-chip">
+                  <div class="book-chip-icon">✦</div>
+                  <span class="book-chip-zh">诗篇</span>
+                  <span class="book-chip-en">Psalms</span>
+                </div>
+                <div class="book-chip">
+                  <div class="book-chip-icon">✦</div>
+                  <span class="book-chip-zh">罗马书</span>
+                  <span class="book-chip-en">Romans</span>
+                </div>
+                <div class="book-chip">
+                  <div class="book-chip-icon">✦</div>
+                  <span class="book-chip-zh">创世记</span>
+                  <span class="book-chip-en">Genesis</span>
+                </div>
+                <div class="book-chip">
+                  <div class="book-chip-icon">✦</div>
+                  <span class="book-chip-zh">马太福音</span>
+                  <span class="book-chip-en">Matthew</span>
+                </div>
+              </div>
+
+              <div
+                class="sec-title"
+                data-zh="热门灵想"
+                data-en="Trending Reflections"
+              >
+                热门灵想
+              </div>
+              <div class="home-feed">
+                <div class="home-card" onclick="go('community')">
+                  <div class="card-user-row">
+                    <div
+                      class="dc-av dc-av-gold"
+                      style="width: 28px; height: 28px; font-size: 11px"
+                    >
+                      恩
+                    </div>
+                    <div class="name">Grace Sister</div>
+                    <div class="badge badge-sapphire">John 3:16</div>
+                  </div>
+                  <div
+                    class="card-text"
+                    data-zh="神爱世人，这不只是一句口号，而是一个行动。当我在最低谷的时候，这节经文像一道光照进来——祂爱的不是完美的我，而是真实的我。"
+                    data-en='"God so loved the world" — not a slogan, but an action. When I was at my lowest, this verse felt like light breaking through. He loves not the perfect me, but the real me.'
+                  >
+                    神爱世人，这不只是一句口号，而是一个行动。当我在最低谷的时候，这节经文像一道光照进来——祂爱的不是完美的我，而是真实的我。
+                  </div>
+                  <div class="card-actions">
+                    <div class="c-act">
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                        /></svg
+                      >248
+                    </div>
+                    <div class="c-act">
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                        /></svg
+                      >32
+                    </div>
+                  </div>
+                </div>
+                <div class="home-card" onclick="go('community')">
+                  <div class="card-user-row">
+                    <div
+                      class="dc-av dc-av-blue"
+                      style="width: 28px; height: 28px; font-size: 11px"
+                    >
+                      P
+                    </div>
+                    <div class="name">Walking with Peter</div>
+                    <div class="badge badge-sapphire">John 3:3</div>
+                  </div>
+                  <div
+                    class="card-text"
+                    data-zh="重生，不是重新来过，而是从神而生。尼哥底母的困惑是我们所有人的困惑，那个夜晚的对话，跨越两千年仍在回响。"
+                    data-en="Born again — not starting over, but born from above. Nicodemus' confusion is everyone's confusion. That midnight conversation still echoes two thousand years later."
+                  >
+                    重生，不是重新来过，而是从神而生。尼哥底母的困惑是我们所有人的困惑，那个夜晚的对话，跨越两千年仍在回响。
+                  </div>
+                  <div class="card-actions">
+                    <div class="c-act">
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                        /></svg
+                      >187
+                    </div>
+                    <div class="c-act">
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                        /></svg
+                      >19
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="height: 22px"></div>
+            </div>
+          </div>
+
+          <!-- ━━━━━━━━━━━━━━ ② READING ━━━━━━━━━━━━━━ -->
+          <div class="screen" id="screen-read">
+            <div class="reading-topbar">
+              <div class="icon-btn" onclick="go('home')">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#1A2B4A"
+                  stroke-width="2.2"
+                >
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </div>
+              <div class="rtb-info">
+                <div class="rtb-book" data-zh="约翰福音 · JOHN" data-en="JOHN">约翰福音 · JOHN</div>
+                <div
+                  class="rtb-chapter"
+                  data-zh="第三章 · Chapter 3"
+                  data-en="Chapter 3"
+                >
+                  第三章 · Chapter 3
+                </div>
+              </div>
+              <div class="rtb-tools">
+                <div class="icon-btn pill">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#4A6FA5"
+                    stroke-width="2"
+                  >
+                    <polygon points="11,5 6,9 2,9 2,15 6,15 11,19" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  </svg>
+                </div>
+                <div class="icon-btn pill">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#4A6FA5"
+                    stroke-width="2"
+                  >
+                    <polyline points="4 7 4 4 20 4 20 7" />
+                    <line x1="9" y1="20" x2="15" y2="20" />
+                    <line x1="12" y1="4" x2="12" y2="20" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="scroll">
+              <div class="ch-intro">
+                <div class="ch-eyebrow" data-zh="John · 约翰福音 · Chapter 3" data-en="JOHN · CHAPTER 3">John · 约翰福音 · Chapter 3</div>
+                <div
+                  class="ch-title-zh"
+                  data-zh="与尼哥底母的对话"
+                  data-en="与尼哥底母的对话"
+                >
+                  与尼哥底母的对话
+                </div>
+                <div
+                  class="ch-title-en"
+                  data-zh="The Conversation with Nicodemus"
+                  data-en="The Conversation with Nicodemus"
+                >
+                  The Conversation with Nicodemus
+                </div>
+
+                <div class="summary-card">
+                  <div
+                    class="sum-lbl"
+                    data-zh="本章摘要 · Chapter Summary"
+                    data-en="CHAPTER SUMMARY"
+                  >
+                    本章摘要 · Chapter Summary
+                  </div>
+                  <div
+                    class="sum-text"
+                    data-zh="耶稣向法利赛人尼哥底母解释，人必须「从圣灵重生」才能进入神的国度，并揭示神对世人无条件的爱与救恩计划。"
+                    data-en="Jesus explains to Nicodemus the Pharisee that one must be &ldquo;born of the Spirit&rdquo; to enter God&rsquo;s kingdom, and reveals God&rsquo;s unconditional love and plan of salvation for the world."
+                  >
+                    耶稣向法利赛人尼哥底母解释，人必须「从圣灵重生」才能进入神的国度，并揭示神对世人无条件的爱与救恩计划。
+                  </div>
+                </div>
+
+                <div class="key-ideas">
+                  <div class="key-idea">
+                    <div class="ki-num">1</div>
+                    <div
+                      class="ki-text"
+                      data-zh="重生不是肉体的重复，而是圣灵的更新与改变"
+                      data-en="Being born again is not physical repetition — it is renewal and transformation by the Spirit."
+                    >
+                      重生不是肉体的重复，而是圣灵的更新与改变
+                    </div>
+                  </div>
+                  <div class="key-idea">
+                    <div class="ki-num">2</div>
+                    <div
+                      class="ki-text"
+                      data-zh="神爱世人的核心彰显：差遣独生子使人得救"
+                      data-en="God's love for the world is shown by sending His one and only Son to bring salvation."
+                    >
+                      神爱世人的核心彰显：差遣独生子使人得救
+                    </div>
+                  </div>
+                  <div class="key-idea">
+                    <div class="ki-num">3</div>
+                    <div
+                      class="ki-text"
+                      data-zh="光与暗的对比：人来就光，还是逃避真理"
+                      data-en="The contrast of light and darkness: do we come into the light, or flee from truth?"
+                    >
+                      光与暗的对比：人来就光，还是逃避真理
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="verse-zone">
+                <div class="vdivider">
+                  <div class="vdivider-line"></div>
+                  <div
+                    class="vdivider-txt"
+                    data-zh="逐节阅读 · VERSE BY VERSE"
+                    data-en="VERSE BY VERSE"
+                  >
+                    逐节阅读 · VERSE BY VERSE
+                  </div>
+                  <div class="vdivider-line"></div>
+                </div>
+
+                <!-- Verse 1 -->
+                <div class="verse-block">
+                  <div class="verse-num-row">
+                    <div class="vnum">1</div>
+                    <div class="vtext-zh">
+                      有一个法利赛人，名叫尼哥底母，是犹太人的官。
+                    </div>
+                  </div>
+                  <div class="vtext-en">
+                    Now there was a Pharisee, a man named Nicodemus who was a
+                    member of the Jewish ruling council.
+                  </div>
+                  <div class="expl-block">
+                    <div
+                      class="expl-lbl"
+                      data-zh="理解 · UNDERSTAND"
+                      data-en="UNDERSTAND"
+                    >
+                      理解 · UNDERSTAND
+                    </div>
+                    <div
+                      class="expl-text"
+                      data-zh="尼哥底母是当时社会地位极高的宗教领袖，属于掌权阶层。他来找耶稣，本身已经是一件不寻常的事——权贵向木匠的儿子寻求答案。"
+                      data-en="Nicodemus was a high-ranking religious leader with great social status. The fact that he came to Jesus at all was remarkable — a man of power seeking answers from a carpenter's son."
+                    >
+                      尼哥底母是当时社会地位极高的宗教领袖，属于掌权阶层。他来找耶稣，本身已经是一件不寻常的事——权贵向木匠的儿子寻求答案。
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Verse 2 -->
+                <div class="verse-block">
+                  <div class="verse-num-row">
+                    <div class="vnum">2</div>
+                    <div class="vtext-zh">
+                      这人夜里来见耶稣，说：「拉比，我们知道你是由神那里来做师傅的；因为你所行的神迹，若没有神同在，无人能行。」
+                    </div>
+                  </div>
+                  <div class="vtext-en">
+                    He came to Jesus at night and said, "Rabbi, we know that you
+                    are a teacher who has come from God. For no one could
+                    perform the signs you are doing if God were not with him."
+                  </div>
+                  <div class="expl-block">
+                    <div
+                      class="expl-lbl"
+                      data-zh="理解 · UNDERSTAND"
+                      data-en="UNDERSTAND"
+                    >
+                      理解 · UNDERSTAND
+                    </div>
+                    <div
+                      class="expl-text"
+                      data-zh="他「夜里」来，可能是为了避开同僚的眼光，也可能是选择一个安静可以深谈的时机。他承认耶稣来自神，但还未理解耶稣真正的身份。这是一段求知的对话，而非对抗。"
+                      data-en="He came &ldquo;at night&rdquo; — perhaps to avoid the eyes of his peers, or to find a quiet moment for deep conversation. He acknowledged Jesus came from God, but hadn&rsquo;t yet grasped who Jesus truly was. This is a conversation of seeking, not confrontation."
+                    >
+                      他「夜里」来，可能是为了避开同僚的眼光，也可能是选择一个安静可以深谈的时机。他承认耶稣来自神，但还未理解耶稣真正的身份。这是一段求知的对话，而非对抗。
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Verse 3 -->
+                <div class="verse-block">
+                  <div class="verse-num-row">
+                    <div class="vnum">3</div>
+                    <div class="vtext-zh">
+                      耶稣回答说：「我实实在在地告诉你，人若不重生，就不能见神的国。」
+                    </div>
+                  </div>
+                  <div class="vtext-en">
+                    Jesus replied, "Very truly I tell you, no one can see the
+                    kingdom of God unless they are born again."
+                  </div>
+                  <div class="expl-block">
+                    <div
+                      class="expl-lbl"
+                      data-zh="理解 · UNDERSTAND"
+                      data-en="UNDERSTAND"
+                    >
+                      理解 · UNDERSTAND
+                    </div>
+                    <div
+                      class="expl-text"
+                      data-zh="耶稣没有直接回应赞美，而是立刻切入核心：真正认识神需要一种全新的生命状态。「重生」在原文有「从上而生」的含义，不是人可以靠自己努力完成的，而是来自神的更新。"
+                      data-en='Jesus skipped the praise and went straight to the heart: truly knowing God requires an entirely new state of life. "Born again" in the original language carries the meaning of "born from above" — something no human effort can achieve, only God&rsquo;s renewal.'
+                    >
+                      耶稣没有直接回应赞美，而是立刻切入核心：真正认识神需要一种全新的生命状态。「重生」在原文有「从上而生」的含义，不是人可以靠自己努力完成的，而是来自神的更新。
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Verse 16 -->
+                <div class="verse-block">
+                  <div class="verse-num-row">
+                    <div class="vnum">16</div>
+                    <div class="vtext-zh">
+                      「神爱世人，甚至将他的独生子赐给他们，叫一切信他的，不至灭亡，反得永生。」
+                    </div>
+                  </div>
+                  <div class="vtext-en">
+                    "For God so loved the world that he gave his one and only
+                    Son, that whoever believes in him shall not perish but have
+                    eternal life."
+                  </div>
+                  <div class="expl-block">
+                    <div
+                      class="expl-lbl"
+                      data-zh="理解 · UNDERSTAND"
+                      data-en="UNDERSTAND"
+                    >
+                      理解 · UNDERSTAND
+                    </div>
+                    <div
+                      class="expl-text"
+                      data-zh="这是整本圣经最广为人知的一节。神爱的对象是「世人」——不分种族、背景、身份。「赐给」意味着完全的给予，而非借用。信祂的结果不是短暂的恩宠，而是永恒的生命。"
+                      data-en="The most recognized verse in all of Scripture. God&rsquo;s love extends to &ldquo;the world&rdquo; — no barrier of race, background, or status. &ldquo;Gave&rdquo; means complete surrender, not a loan. Believing in Him brings not fleeting blessing but eternal life."
+                    >
+                      这是整本圣经最广为人知的一节。神爱的对象是「世人」——不分种族、背景、身份。「赐给」意味着完全的给予，而非借用。信祂的结果不是短暂的恩宠，而是永恒的生命。
+                    </div>
+                  </div>
+                </div>
+
+                <div class="chapter-done">
+                  <svg
+                    style="
+                      position: absolute;
+                      inset: 0;
+                      width: 100%;
+                      height: 100%;
+                      opacity: 0.04;
+                      pointer-events: none;
+                    "
+                    viewBox="0 0 340 220"
+                    preserveAspectRatio="none"
+                  >
+                    <line
+                      x1="68"
+                      y1="0"
+                      x2="68"
+                      y2="220"
+                      stroke="white"
+                      stroke-width="2"
+                    />
+                    <line
+                      x1="136"
+                      y1="0"
+                      x2="136"
+                      y2="220"
+                      stroke="white"
+                      stroke-width="1"
+                    />
+                    <line
+                      x1="204"
+                      y1="0"
+                      x2="204"
+                      y2="220"
+                      stroke="white"
+                      stroke-width="2"
+                    />
+                    <line
+                      x1="272"
+                      y1="0"
+                      x2="272"
+                      y2="220"
+                      stroke="white"
+                      stroke-width="1"
+                    />
+                    <line
+                      x1="0"
+                      y1="55"
+                      x2="340"
+                      y2="55"
+                      stroke="white"
+                      stroke-width="1"
+                    />
+                    <line
+                      x1="0"
+                      y1="110"
+                      x2="340"
+                      y2="110"
+                      stroke="white"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M170 0 Q250 110 170 220"
+                      stroke="white"
+                      stroke-width="1.5"
+                      fill="none"
+                    />
+                    <path
+                      d="M170 0 Q90 110 170 220"
+                      stroke="white"
+                      stroke-width="1.5"
+                      fill="none"
+                    />
+                  </svg>
+                  <span class="done-star">✦</span>
+                  <div
+                    class="done-title"
+                    data-zh="本章阅读完成"
+                    data-en="Chapter Complete"
+                  >
+                    本章阅读完成
+                  </div>
+                  <div class="done-sub">John Chapter 3 · Completed</div>
+                  <div
+                    class="done-btn"
+                    data-zh="写下你的灵想 →"
+                    data-en="Write Your Reflection →"
+                    onclick="go('community')"
+                  >
+                    写下你的灵想 →
+                  </div>
+                </div>
+              </div>
+              <div style="height: 24px"></div>
+            </div>
+          </div>
+
+          <!-- ━━━━━━━━━━━━━━ ③ COMMUNITY ━━━━━━━━━━━━━━ -->
+          <div class="screen" id="screen-community">
+            <div class="ref-topbar">
+              <div
+                class="ref-title"
+                data-zh="灵想与讨论"
+                data-en="Reflections & Discussion"
+              >
+                灵想与讨论
+              </div>
+              <div
+                class="ref-sub"
+                data-zh="约翰福音 第三章 · John 3"
+                data-en="John 3"
+              >
+                约翰福音 第三章 · John 3
+              </div>
+            </div>
+            <div class="scroll">
+              <div class="prompt-card">
+                <div
+                  class="prompt-tag"
+                  data-zh="今日反思 · REFLECTION"
+                  data-en="TODAY'S REFLECTION"
+                >
+                  今日反思 · REFLECTION
+                </div>
+                <div
+                  class="prompt-text"
+                  data-zh="尼哥底母夜里来见耶稣——你生命中有没有一个问题，是你也想在无人知晓时悄悄去寻求答案的？"
+                  data-en="Nicodemus came to Jesus at night — is there a question in your own life that you&rsquo;ve only dared to ask in quiet, when no one else is watching?"
+                >
+                  尼哥底母夜里来见耶稣——你生命中有没有一个问题，是你也想在无人知晓时悄悄去寻求答案的？
+                </div>
+              </div>
+
+              <div class="journal-wrap">
+                <div
+                  class="j-lbl"
+                  data-zh="写下你的灵想"
+                  data-en="Write Your Reflection"
+                >
+                  写下你的灵想
+                </div>
+                <textarea
+                  class="j-area"
+                  id="j-area"
+                  placeholder="在这里分享你的感受和思考……这段经文让你想到了什么？"
+                  data-ph-zh="在这里分享你的感受和思考……这段经文让你想到了什么？"
+                  data-ph-en="Share your thoughts here… What does this passage bring to mind?"
+                ></textarea>
+                <div class="j-row">
+                  <div
+                    class="j-submit"
+                    data-zh="公开分享"
+                    data-en="Share Publicly"
+                  >
+                    公开分享
+                  </div>
+                </div>
+              </div>
+
+              <div class="feed-divider">
+                <div class="fd-line"></div>
+                <div
+                  class="fd-txt"
+                  data-zh="社群灵想 · COMMUNITY"
+                  data-en="COMMUNITY REFLECTIONS"
+                >
+                  社群灵想 · COMMUNITY
+                </div>
+                <div class="fd-line"></div>
+              </div>
+
+              <div class="disc-feed">
+                <div class="disc-card">
+                  <div class="dc-head">
+                    <div class="dc-av dc-av-gold">恩</div>
+                    <div class="dc-info">
+                      <div class="dc-name">Grace Sister</div>
+                      <div
+                        class="dc-meta"
+                        data-zh="今日 · 上海"
+                        data-en="Today · Shanghai"
+                      >
+                        今日 · 上海
+                      </div>
+                    </div>
+                    <div class="verse-tag">John 3:16</div>
+                  </div>
+                  <div
+                    class="dc-text"
+                    data-zh="「神爱世人」这四个字，我读了二十年，今天才真的停下来想：我是其中一个「世人」吗？这节经文不是给完美的人的，而是给正在挣扎的我的。"
+                    data-en="&ldquo;God so loved the world.&rdquo; I&rsquo;ve read those words for twenty years. Today I finally stopped and asked: am I one of that &ldquo;world&rdquo;? This verse isn&rsquo;t for perfect people. It&rsquo;s for the struggling, imperfect me."
+                  >
+                    「神爱世人」这四个字，我读了二十年，今天才真的停下来想：我是其中一个「世人」吗？这节经文不是给完美的人的，而是给正在挣扎的我的。
+                  </div>
+                  <div class="dc-acts">
+                    <div class="dc-act red">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="#E0534A"
+                        stroke="#E0534A"
+                        stroke-width="1.5"
+                      >
+                        <path
+                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                        /></svg
+                      >248
+                    </div>
+                    <div class="dc-act">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                        /></svg
+                      >32
+                    </div>
+                  </div>
+                </div>
+
+                <div class="disc-card">
+                  <div class="dc-head">
+                    <div class="dc-av dc-av-blue">P</div>
+                    <div class="dc-info">
+                      <div class="dc-name">Walking with Peter</div>
+                      <div
+                        class="dc-meta"
+                        data-zh="昨日 · 多伦多"
+                        data-en="Yesterday · Toronto"
+                      >
+                        昨日 · 多伦多
+                      </div>
+                    </div>
+                    <div class="verse-tag">John 3:3</div>
+                  </div>
+                  <div
+                    class="dc-text"
+                    data-zh="重生这个词我以前觉得太神学了，听不懂。今天 Biblely 的解释让我明白：这不是返老还童，而是一种全新视角的开启。就像戴上了新的眼镜，看见同样的世界却完全不同。"
+                    data-en="I used to find &ldquo;born again&rdquo; too theological to grasp. Biblely&rsquo;s explanation finally made it click: it&rsquo;s not turning back the clock — it&rsquo;s opening an entirely new perspective. Like putting on new glasses: the same world, completely transformed."
+                  >
+                    重生这个词我以前觉得太神学了，听不懂。今天 Biblely
+                    的解释让我明白：这不是返老还童，而是一种全新视角的开启。就像戴上了新的眼镜，看见同样的世界却完全不同。
+                  </div>
+                  <div class="dc-acts">
+                    <div class="dc-act">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                        /></svg
+                      >187
+                    </div>
+                    <div class="dc-act">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                        /></svg
+                      >19
+                    </div>
+                  </div>
+                </div>
+
+                <div class="disc-card">
+                  <div class="dc-head">
+                    <div class="dc-av dc-av-green">晨</div>
+                    <div class="dc-info">
+                      <div
+                        class="dc-name"
+                        data-zh="晨光读经"
+                        data-en="Morning Light"
+                      >
+                        晨光读经
+                      </div>
+                      <div
+                        class="dc-meta"
+                        data-zh="2天前 · 北京"
+                        data-en="2 days ago · Beijing"
+                      >
+                        2天前 · 北京
+                      </div>
+                    </div>
+                    <div class="verse-tag">John 3:2</div>
+                  </div>
+                  <div
+                    class="dc-text"
+                    data-zh="尼哥底母夜里来——这个细节每次读都触动我。他有地位、有知识，却也有内心深处无法被满足的渴望。我们有时候不也是这样吗？"
+                    data-en="Nicodemus came at night — this detail moves me every time. He had status, knowledge, everything. And yet a deep longing inside that nothing could satisfy. Aren&rsquo;t we sometimes the same?"
+                  >
+                    尼哥底母夜里来——这个细节每次读都触动我。他有地位、有知识，却也有内心深处无法被满足的渴望。我们有时候不也是这样吗？
+                  </div>
+                  <div class="dc-acts">
+                    <div class="dc-act">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                        /></svg
+                      >143
+                    </div>
+                    <div class="dc-act">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                        /></svg
+                      >11
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="next-cta" onclick="go('read')">
+                <div>
+                  <div
+                    class="next-lbl"
+                    data-zh="继续阅读 · CONTINUE"
+                    data-en="CONTINUE READING"
+                  >
+                    继续阅读 · CONTINUE
+                  </div>
+                  <div
+                    class="next-ch"
+                    data-zh="约翰福音 第四章 →"
+                    data-en="John Chapter 4 →"
+                  >
+                    约翰福音 第四章 →
+                  </div>
+                </div>
+                <div class="next-arrow">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    stroke-width="2.5"
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </div>
+              </div>
+              <div style="height: 20px"></div>
+            </div>
+          </div>
+
+          <!-- ━━━━━━━━━━━━━━ ④ CIRCLES ━━━━━━━━━━━━━━ -->
+          <div class="screen" id="screen-circles">
+            <div class="scroll">
+              <div class="circles-topbar">
+                <div class="circles-row">
+                  <div
+                    class="circles-title"
+                    data-zh="Biblely 圈子"
+                    data-en="Biblely Circles"
+                  >
+                    Biblely 圈子
+                  </div>
+                  <div class="prem-badge">✦ Premium</div>
+                </div>
+                <div
+                  class="circles-sub"
+                  data-zh="私密教会学习空间"
+                  data-en="Private Church Study Spaces"
+                >
+                  私密教会学习空间
+                </div>
+              </div>
+
+              <div class="prem-card">
+                <svg
+                  style="
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0.04;
+                    pointer-events: none;
+                  "
+                  viewBox="0 0 354 130"
+                  preserveAspectRatio="none"
+                >
+                  <line
+                    x1="70"
+                    y1="0"
+                    x2="70"
+                    y2="130"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                  <line
+                    x1="140"
+                    y1="0"
+                    x2="140"
+                    y2="130"
+                    stroke="white"
+                    stroke-width="1"
+                  />
+                  <line
+                    x1="210"
+                    y1="0"
+                    x2="210"
+                    y2="130"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                  <line
+                    x1="280"
+                    y1="0"
+                    x2="280"
+                    y2="130"
+                    stroke="white"
+                    stroke-width="1"
+                  />
+                  <line
+                    x1="0"
+                    y1="43"
+                    x2="354"
+                    y2="43"
+                    stroke="white"
+                    stroke-width="1"
+                  />
+                  <line
+                    x1="0"
+                    y1="86"
+                    x2="354"
+                    y2="86"
+                    stroke="white"
+                    stroke-width="2"
+                  />
+                </svg>
+                <div class="prem-lbl" data-zh="Premium · 高级功能" data-en="PREMIUM">Premium · 高级功能</div>
+                <div
+                  class="prem-title"
+                  data-zh="开启私密教会学习空间"
+                  data-en="Unlock Your Private Church Study Space"
+                >
+                  开启私密教会学习空间
+                </div>
+                <div class="prem-feats">
+                  <div
+                    class="prem-feat"
+                    data-zh="私密小组与领袖注释笔记"
+                    data-en="Private groups with leader study notes"
+                  >
+                    私密小组与领袖注释笔记
+                  </div>
+                  <div
+                    class="prem-feat"
+                    data-zh="教会专属读经计划"
+                    data-en="Church-exclusive reading plans"
+                  >
+                    教会专属读经计划
+                  </div>
+                  <div
+                    class="prem-feat"
+                    data-zh="祷告主题与代祷记录"
+                    data-en="Prayer threads and intercession records"
+                  >
+                    祷告主题与代祷记录
+                  </div>
+                  <div
+                    class="prem-feat"
+                    data-zh="小组集体灵想与讨论"
+                    data-en="Group reflections and shared discussion"
+                  >
+                    小组集体灵想与讨论
+                  </div>
+                </div>
+                <div
+                  class="prem-btn"
+                  data-zh="¥18 / 月 · 开始 7 天免费试用"
+                  data-en="¥18 / mo · Start 7-Day Free Trial"
+                >
+                  ¥18 / 月 · 开始 7 天免费试用
+                </div>
+              </div>
+
+              <div class="sec-title" data-zh="我的圈子" data-en="My Circles">
+                我的圈子
+              </div>
+              <div class="circle-cards">
+                <div class="circle-card">
+                  <div class="cc-head">
+                    <div class="cc-icon cc-icon-navy">
+                      <span
+                        style="
+                          font-size: 22px;
+                          line-height: 1;
+                          color: var(--soft-gold);
+                        "
+                        >✦</span
+                      >
+                    </div>
+                    <div>
+                      <div
+                        class="cc-name"
+                        data-zh="恩典团契读经组"
+                        data-en="Grace Fellowship Study Group"
+                      >
+                        恩典团契读经组
+                      </div>
+                      <div
+                        class="cc-leader"
+                        data-zh="领袖：王传道 · 8 人"
+                        data-en="Leader: Pastor Wang · 8 members"
+                      >
+                        领袖：王传道 · 8 人
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cc-plan-row">
+                    <span style="font-size: 13px">📖</span>
+                    <span
+                      class="cc-plan-txt"
+                      data-zh="当前计划：约翰福音 30 天读经"
+                      data-en="Active Plan: John — 30-Day Reading"
+                      >当前计划：约翰福音 30 天读经</span
+                    >
+                    <span
+                      class="cc-plan-prog"
+                      data-zh="第 3 / 30 天"
+                      data-en="Day 3 / 30"
+                      >第 3 / 30 天</span
+                    >
+                  </div>
+                  <div class="cc-stats">
+                    <div class="cc-stat">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                        /></svg
+                      ><span
+                        data-zh="今日 4 条灵想"
+                        data-en="4 reflections today"
+                        >今日 4 条灵想</span
+                      >
+                    </div>
+                    <div class="cc-stat">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" /></svg
+                      ><span
+                        data-zh="下次：周三 晚 8 点"
+                        data-en="Next: Wed 8 PM"
+                        >下次：周三 晚 8 点</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="circle-card">
+                  <div class="cc-head">
+                    <div class="cc-icon cc-icon-gold">
+                      <span
+                        style="
+                          font-size: 22px;
+                          line-height: 1;
+                          color: var(--soft-gold);
+                        "
+                        >✦</span
+                      >
+                    </div>
+                    <div>
+                      <div
+                        class="cc-name"
+                        data-zh="大学生信仰小组"
+                        data-en="University Faith Group"
+                      >
+                        大学生信仰小组
+                      </div>
+                      <div
+                        class="cc-leader"
+                        data-zh="领袖：李传道 · 15 人"
+                        data-en="Leader: Pastor Li · 15 members"
+                      >
+                        领袖：李传道 · 15 人
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cc-plan-row">
+                    <span style="font-size: 13px">📖</span>
+                    <span
+                      class="cc-plan-txt"
+                      data-zh="当前计划：诗篇精读 · 40 天"
+                      data-en="Active Plan: Psalms Deep Study · 40 Days"
+                      >当前计划：诗篇精读 · 40 天</span
+                    >
+                    <span
+                      class="cc-plan-prog"
+                      data-zh="第 12 / 40 天"
+                      data-en="Day 12 / 40"
+                      >第 12 / 40 天</span
+                    >
+                  </div>
+                  <div class="cc-stats">
+                    <div class="cc-stat">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                        /></svg
+                      ><span
+                        data-zh="今日 11 条灵想"
+                        data-en="11 reflections today"
+                        >今日 11 条灵想</span
+                      >
+                    </div>
+                    <div class="cc-stat">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" /></svg
+                      ><span
+                        data-zh="下次：周五 下午"
+                        data-en="Next: Friday afternoon"
+                        >下次：周五 下午</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="sec-title"
+                data-zh="代祷主题"
+                data-en="Prayer Threads"
+              >
+                代祷主题
+              </div>
+              <div class="prayer-wrap">
+                <div class="prayer-card">
+                  <div class="prayer-ico">🙏</div>
+                  <div>
+                    <div
+                      class="prayer-txt"
+                      data-zh="为新加入的三位弟兄姐妹祷告，愿他们在信仰上得到稳固的根基，在读经中遇见神的话语。"
+                      data-en="Praying for three newly joined members — may they find a solid foundation in faith and encounter God's word through scripture reading."
+                    >
+                      为新加入的三位弟兄姐妹祷告，愿他们在信仰上得到稳固的根基，在读经中遇见神的话语。
+                    </div>
+                    <div
+                      class="prayer-meta"
+                      data-zh="恩典团契 · 17 人参与祷告"
+                      data-en="Grace Fellowship · 17 people praying"
+                    >
+                      恩典团契 · 17 人参与祷告
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="height: 20px"></div>
+            </div>
+          </div>
+
+          <!-- ━━━━━━━━━━━━━━ ⑤ PROFILE ━━━━━━━━━━━━━━ -->
+          <div class="screen" id="screen-profile">
+            <div class="scroll">
+              <div class="prof-hero">
+                <div class="prof-user-row">
+                  <div class="prof-av">恩</div>
+                  <div>
+                    <div class="prof-name">Grace Sister</div>
+                    <div
+                      class="prof-meta"
+                      data-zh="成员自 2024 年 · Shanghai"
+                      data-en="Member since 2024 · Shanghai"
+                    >
+                      成员自 2024 年 · Shanghai
+                    </div>
+                  </div>
+                </div>
+                <div class="prof-stats">
+                  <div class="ps">
+                    <span class="ps-num">47</span
+                    ><span class="ps-lbl" data-zh="已读章数" data-en="Chapters"
+                      >已读章数</span
+                    >
+                  </div>
+                  <div class="ps">
+                    <span class="ps-num">23</span
+                    ><span
+                      class="ps-lbl"
+                      data-zh="灵想分享"
+                      data-en="Reflections"
+                      >灵想分享</span
+                    >
+                  </div>
+                  <div class="ps">
+                    <span class="ps-num">12</span
+                    ><span
+                      class="ps-lbl"
+                      data-zh="连续天数"
+                      data-en="Day Streak"
+                      >连续天数</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- App Language -->
+              <div class="s-section">
+                <div
+                  class="s-sec-title"
+                  data-zh="应用语言"
+                  data-en="App Language"
+                >
+                  应用语言
+                </div>
+                <div class="s-group">
+                  <div class="s-opt">
+                    <div class="s-opt-text">
+                      <div class="s-opt-main">中文</div>
+                    </div>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#4A6FA5"
+                      stroke-width="2.5"
+                      id="check-zh"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div class="s-opt">
+                    <div class="s-opt-text">
+                      <div class="s-opt-main">English</div>
+                    </div>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#4A6FA5"
+                      stroke-width="2.5"
+                      id="check-en"
+                      style="display: none"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div class="s-opt">
+                    <div class="s-opt-text">
+                      <div
+                        class="s-opt-main"
+                        data-zh="跟随系统"
+                        data-en="Follow System"
+                      >
+                        跟随系统
+                      </div>
+                      <div
+                        class="s-opt-sub"
+                        data-zh="Follow System"
+                        data-en="跟随系统"
+                      >
+                        Follow System
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scripture Mode -->
+              <div class="s-section">
+                <div
+                  class="s-sec-title"
+                  data-zh="经文阅读模式"
+                  data-en="Scripture Reading Mode"
+                >
+                  经文阅读模式
+                </div>
+                <div class="s-group">
+                  <div class="s-opt">
+                    <div class="s-opt-text">
+                      <div
+                        class="s-opt-main"
+                        data-zh="仅中文"
+                        data-en="Chinese Only"
+                      >
+                        仅中文
+                      </div>
+                      <div
+                        class="s-opt-sub"
+                        data-zh="Chinese Only"
+                        data-en="仅中文"
+                      >
+                        Chinese Only
+                      </div>
+                    </div>
+                  </div>
+                  <div class="s-opt">
+                    <div class="s-opt-text">
+                      <div
+                        class="s-opt-main"
+                        data-zh="仅英文"
+                        data-en="English Only"
+                      >
+                        仅英文
+                      </div>
+                      <div
+                        class="s-opt-sub"
+                        data-zh="English Only"
+                        data-en="仅英文"
+                      >
+                        English Only
+                      </div>
+                    </div>
+                  </div>
+                  <div class="s-opt">
+                    <div class="s-opt-text">
+                      <div
+                        class="s-opt-main"
+                        data-zh="中英双语对照"
+                        data-en="Bilingual Side-by-Side"
+                      >
+                        中英双语对照
+                      </div>
+                      <div
+                        class="s-opt-sub"
+                        data-zh="Bilingual Side-by-Side"
+                        data-en="中英双语对照"
+                      >
+                        Bilingual Side-by-Side
+                      </div>
+                    </div>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#4A6FA5"
+                      stroke-width="2.5"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div class="s-opt">
+                    <div class="s-opt-text">
+                      <div
+                        class="s-opt-main"
+                        data-zh="中文经文 + 英文解释"
+                        data-en="Chinese Scripture + English Explanation"
+                      >
+                        中文经文 + 英文解释
+                      </div>
+                      <div
+                        class="s-opt-sub"
+                        data-zh="Chinese Scripture + English Explanation"
+                        data-en="中文经文 + 英文解释"
+                      >
+                        Chinese Scripture + English Explanation
+                      </div>
+                    </div>
+                  </div>
+                  <div class="s-opt">
+                    <div class="s-opt-text">
+                      <div
+                        class="s-opt-main"
+                        data-zh="英文经文 + 中文解释"
+                        data-en="English Scripture + Chinese Explanation"
+                      >
+                        英文经文 + 中文解释
+                      </div>
+                      <div
+                        class="s-opt-sub"
+                        data-zh="English Scripture + Chinese Explanation"
+                        data-en="英文经文 + 中文解释"
+                      >
+                        English Scripture + Chinese Explanation
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Display -->
+              <div class="s-section">
+                <div
+                  class="s-sec-title"
+                  data-zh="文字与显示"
+                  data-en="Text & Display"
+                >
+                  文字与显示
+                </div>
+                <div class="s-group">
+                  <div class="s-row" style="padding-bottom: 6px">
+                    <div class="s-ico" style="background: #e8eef7">📝</div>
+                    <div class="s-label" data-zh="文字大小" data-en="Text Size">
+                      文字大小
+                    </div>
+                  </div>
+                  <div class="tsize-row">
+                    <div class="tsz">
+                      <span class="tsz-preview" style="font-size: 14px"
+                        >文 A</span
+                      >
+                      <span class="tsz-lbl" data-zh="标准" data-en="Standard"
+                        >标准</span
+                      >
+                    </div>
+                    <div class="tsz on">
+                      <span class="tsz-preview" style="font-size: 18px"
+                        >文 A</span
+                      >
+                      <span class="tsz-lbl" data-zh="大" data-en="Large"
+                        >大</span
+                      >
+                    </div>
+                    <div class="tsz">
+                      <span class="tsz-preview" style="font-size: 23px"
+                        >文 A</span
+                      >
+                      <span class="tsz-lbl" data-zh="老人" data-en="Elder"
+                        >老人</span
+                      >
+                    </div>
+                  </div>
+                  <div class="slider-row">
+                    <div class="sl-head">
+                      <div
+                        class="sl-lbl"
+                        data-zh="行间距"
+                        data-en="Line Spacing"
+                      >
+                        行间距
+                      </div>
+                      <div class="sl-val" data-zh="宽松" data-en="Relaxed">
+                        宽松
+                      </div>
+                    </div>
+                    <div class="sl-track">
+                      <div class="sl-fill" style="width: 65%"></div>
+                      <div class="sl-thumb" style="left: 65%"></div>
+                    </div>
+                  </div>
+                  <div class="s-row">
+                    <div class="s-ico" style="background: #222">🌙</div>
+                    <div class="s-label" data-zh="深色模式" data-en="Dark Mode">
+                      深色模式
+                    </div>
+                    <div class="s-toggle off"></div>
+                  </div>
+                  <div class="s-row">
+                    <div class="s-ico" style="background: #e8eef7">🔊</div>
+                    <div
+                      class="s-label"
+                      data-zh="自动朗读"
+                      data-en="Auto-Read Aloud"
+                    >
+                      自动朗读
+                    </div>
+                    <div class="s-toggle on"></div>
+                  </div>
+                  <div class="slider-row">
+                    <div class="sl-head">
+                      <div
+                        class="sl-lbl"
+                        data-zh="朗读速度"
+                        data-en="Reading Speed"
+                      >
+                        朗读速度
+                      </div>
+                      <div class="sl-val">1.0×</div>
+                    </div>
+                    <div class="sl-track">
+                      <div class="sl-fill" style="width: 42%"></div>
+                      <div class="sl-thumb" style="left: 42%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Community -->
+              <div class="s-section">
+                <div
+                  class="s-sec-title"
+                  data-zh="社群与隐私"
+                  data-en="Community & Privacy"
+                >
+                  社群与隐私
+                </div>
+                <div class="s-group">
+                  <div class="s-row">
+                    <div class="s-ico" style="background: #e8f5e9">👤</div>
+                    <div
+                      class="s-label"
+                      data-zh="公开显示名称"
+                      data-en="Display Name"
+                    >
+                      公开显示名称
+                    </div>
+                    <div class="s-value">Grace Sister</div>
+                    <svg
+                      class="s-chev"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </div>
+                  <div class="s-row">
+                    <div class="s-ico" style="background: #fff3e0">🔔</div>
+                    <div
+                      class="s-label"
+                      data-zh="通知设置"
+                      data-en="Notifications"
+                    >
+                      通知设置
+                    </div>
+                    <svg
+                      class="s-chev"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </div>
+                  <div class="s-row">
+                    <div class="s-ico" style="background: #fce4ec">🔒</div>
+                    <div
+                      class="s-label"
+                      data-zh="隐私偏好"
+                      data-en="Privacy Preferences"
+                    >
+                      隐私偏好
+                    </div>
+                    <svg
+                      class="s-chev"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div style="height: 30px"></div>
+            </div>
+          </div>
+        </div>
+        <!-- /screens -->
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+          <div class="nav-tab active" id="nt-home" onclick="go('home')">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="1.8"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9,22 9,12 15,12 15,22" />
+            </svg>
+            <span class="nav-lbl" data-zh="首页" data-en="Home">首页</span>
+          </div>
+          <div class="nav-tab" id="nt-read" onclick="go('read')">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="1.8"
+            >
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </svg>
+            <span class="nav-lbl" data-zh="读经" data-en="Read">读经</span>
+          </div>
+          <div class="nav-tab" id="nt-community" onclick="go('community')">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="1.8"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            <span class="nav-lbl" data-zh="社群" data-en="Community">社群</span>
+          </div>
+          <div class="nav-tab" id="nt-circles" onclick="go('circles')">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="10" r="3" />
+              <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
+            </svg>
+            <span class="nav-lbl" data-zh="圈子" data-en="Circles">圈子</span>
+          </div>
+          <div class="nav-tab" id="nt-profile" onclick="go('profile')">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="1.8"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <span class="nav-lbl" data-zh="我的" data-en="Profile">我的</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ━━━━━━━━━━━━━━ ③ COMMUNITY ━━━━━━━━━━━━━━ -->
-    <div class="screen" id="screen-community">
-      <div class="ref-topbar">
-        <div class="ref-title" data-zh="灵想与讨论" data-en="Reflections & Discussion">灵想与讨论</div>
-        <div class="ref-sub" data-zh="约翰福音 第三章 · John 3" data-en="John 3 · 约翰福音第三章">约翰福音 第三章 · John 3</div>
-      </div>
-      <div class="scroll">
+    <script>
+      // ── Navigation ──
+      const NAV = {
+        home: "home",
+        read: "read",
+        community: "community",
+        circles: "circles",
+        profile: "profile",
+      };
+      function go(name) {
+        document
+          .querySelectorAll(".screen")
+          .forEach((s) => s.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-tab")
+          .forEach((t) => t.classList.remove("active"));
+        const sc = document.getElementById("screen-" + name);
+        if (sc) {
+          sc.classList.add("active");
+          const el = sc.querySelector(".scroll");
+          if (el) el.scrollTop = 0;
+        }
+        const nt = document.getElementById("nt-" + (NAV[name] || name));
+        if (nt) nt.classList.add("active");
+      }
 
-        <div class="prompt-card">
-          <div class="prompt-tag" data-zh="今日反思 · REFLECTION" data-en="TODAY'S REFLECTION">今日反思 · REFLECTION</div>
-          <div class="prompt-text"
-               data-zh="尼哥底母夜里来见耶稣——你生命中有没有一个问题，是你也想在无人知晓时悄悄去寻求答案的？"
-               data-en="Nicodemus came to Jesus at night — is there a question in your own life that you&rsquo;ve only dared to ask in quiet, when no one else is watching?">
-            尼哥底母夜里来见耶稣——你生命中有没有一个问题，是你也想在无人知晓时悄悄去寻求答案的？
-          </div>
-        </div>
+      // ── Language Toggle ──
+      let currentLang = "en";
 
-        <div class="journal-wrap">
-          <div class="j-lbl" data-zh="写下你的灵想" data-en="Write Your Reflection">写下你的灵想</div>
-          <textarea class="j-area" id="j-area"
-            placeholder="在这里分享你的感受和思考……这段经文让你想到了什么？"
-            data-ph-zh="在这里分享你的感受和思考……这段经文让你想到了什么？"
-            data-ph-en="Share your thoughts here… What does this passage bring to mind?"></textarea>
-          <div class="j-row">
-            <div class="j-submit" data-zh="公开分享" data-en="Share Publicly">公开分享</div>
-          </div>
-        </div>
+      function setLang(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
 
-        <div class="feed-divider">
-          <div class="fd-line"></div>
-          <div class="fd-txt" data-zh="社群灵想 · COMMUNITY" data-en="COMMUNITY REFLECTIONS">社群灵想 · COMMUNITY</div>
-          <div class="fd-line"></div>
-        </div>
+        // Toggle button styles
+        document.getElementById("btn-zh").classList.toggle("on", lang === "zh");
+        document.getElementById("btn-en").classList.toggle("on", lang === "en");
 
-        <div class="disc-feed">
-          <div class="disc-card">
-            <div class="dc-head">
-              <div class="dc-av dc-av-gold">恩</div>
-              <div class="dc-info">
-                <div class="dc-name">Grace Sister</div>
-                <div class="dc-meta" data-zh="今日 · 上海" data-en="Today · Shanghai">今日 · 上海</div>
-              </div>
-              <div class="verse-tag">John 3:16</div>
-            </div>
-            <div class="dc-text"
-                 data-zh="「神爱世人」这四个字，我读了二十年，今天才真的停下来想：我是其中一个「世人」吗？这节经文不是给完美的人的，而是给正在挣扎的我的。"
-                 data-en="&ldquo;God so loved the world.&rdquo; I&rsquo;ve read those words for twenty years. Today I finally stopped and asked: am I one of that &ldquo;world&rdquo;? This verse isn&rsquo;t for perfect people. It&rsquo;s for the struggling, imperfect me.">
-              「神爱世人」这四个字，我读了二十年，今天才真的停下来想：我是其中一个「世人」吗？这节经文不是给完美的人的，而是给正在挣扎的我的。
-            </div>
-            <div class="dc-acts">
-              <div class="dc-act red"><svg width="14" height="14" viewBox="0 0 24 24" fill="#E0534A" stroke="#E0534A" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>248</div>
-              <div class="dc-act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>32</div>
-            </div>
-          </div>
+        // Update all [data-zh][data-en] elements
+        document.querySelectorAll("[data-zh][data-en]").forEach((el) => {
+          el.innerHTML = el.dataset[lang];
+        });
 
-          <div class="disc-card">
-            <div class="dc-head">
-              <div class="dc-av dc-av-blue">P</div>
-              <div class="dc-info">
-                <div class="dc-name">Walking with Peter</div>
-                <div class="dc-meta" data-zh="昨日 · 多伦多" data-en="Yesterday · Toronto">昨日 · 多伦多</div>
-              </div>
-              <div class="verse-tag">John 3:3</div>
-            </div>
-            <div class="dc-text"
-                 data-zh="重生这个词我以前觉得太神学了，听不懂。今天 Biblely 的解释让我明白：这不是返老还童，而是一种全新视角的开启。就像戴上了新的眼镜，看见同样的世界却完全不同。"
-                 data-en="I used to find &ldquo;born again&rdquo; too theological to grasp. Biblely&rsquo;s explanation finally made it click: it&rsquo;s not turning back the clock — it&rsquo;s opening an entirely new perspective. Like putting on new glasses: the same world, completely transformed.">
-              重生这个词我以前觉得太神学了，听不懂。今天 Biblely 的解释让我明白：这不是返老还童，而是一种全新视角的开启。就像戴上了新的眼镜，看见同样的世界却完全不同。
-            </div>
-            <div class="dc-acts">
-              <div class="dc-act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>187</div>
-              <div class="dc-act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>19</div>
-            </div>
-          </div>
+        // Textarea placeholder
+        const ta = document.getElementById("j-area");
+        if (ta)
+          ta.placeholder = lang === "en" ? ta.dataset.phEn : ta.dataset.phZh;
 
-          <div class="disc-card">
-            <div class="dc-head">
-              <div class="dc-av dc-av-green">晨</div>
-              <div class="dc-info">
-                <div class="dc-name" data-zh="晨光读经" data-en="Morning Light">晨光读经</div>
-                <div class="dc-meta" data-zh="2天前 · 北京" data-en="2 days ago · Beijing">2天前 · 北京</div>
-              </div>
-              <div class="verse-tag">John 3:2</div>
-            </div>
-            <div class="dc-text"
-                 data-zh="尼哥底母夜里来——这个细节每次读都触动我。他有地位、有知识，却也有内心深处无法被满足的渴望。我们有时候不也是这样吗？"
-                 data-en="Nicodemus came at night — this detail moves me every time. He had status, knowledge, everything. And yet a deep longing inside that nothing could satisfy. Aren&rsquo;t we sometimes the same?">
-              尼哥底母夜里来——这个细节每次读都触动我。他有地位、有知识，却也有内心深处无法被满足的渴望。我们有时候不也是这样吗？
-            </div>
-            <div class="dc-acts">
-              <div class="dc-act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>143</div>
-              <div class="dc-act"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>11</div>
-            </div>
-          </div>
-        </div>
+        // Settings checkmarks: sync with current lang
+        const czh = document.getElementById("check-zh");
+        const cen = document.getElementById("check-en");
+        if (czh) czh.style.display = lang === "zh" ? "" : "none";
+        if (cen) cen.style.display = lang === "en" ? "" : "none";
+      }
 
-        <div class="next-cta" onclick="go('read')">
-          <div>
-            <div class="next-lbl" data-zh="继续阅读 · CONTINUE" data-en="CONTINUE READING">继续阅读 · CONTINUE</div>
-            <div class="next-ch"  data-zh="约翰福音 第四章 →"    data-en="John Chapter 4 →">约翰福音 第四章 →</div>
-          </div>
-          <div class="next-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </div>
-        <div style="height:20px"></div>
-      </div>
-    </div>
-
-    <!-- ━━━━━━━━━━━━━━ ④ CIRCLES ━━━━━━━━━━━━━━ -->
-    <div class="screen" id="screen-circles">
-      <div class="scroll">
-        <div class="circles-topbar">
-          <div class="circles-row">
-            <div class="circles-title" data-zh="Biblely 圈子" data-en="Biblely Circles">Biblely 圈子</div>
-            <div class="prem-badge">✦ Premium</div>
-          </div>
-          <div class="circles-sub" data-zh="私密教会学习空间" data-en="Private Church Study Spaces">私密教会学习空间</div>
-        </div>
-
-        <div class="prem-card">
-          <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.04;pointer-events:none" viewBox="0 0 354 130" preserveAspectRatio="none">
-            <line x1="70"  y1="0" x2="70"  y2="130" stroke="white" stroke-width="2"/>
-            <line x1="140" y1="0" x2="140" y2="130" stroke="white" stroke-width="1"/>
-            <line x1="210" y1="0" x2="210" y2="130" stroke="white" stroke-width="2"/>
-            <line x1="280" y1="0" x2="280" y2="130" stroke="white" stroke-width="1"/>
-            <line x1="0"   y1="43" x2="354" y2="43" stroke="white" stroke-width="1"/>
-            <line x1="0"   y1="86" x2="354" y2="86" stroke="white" stroke-width="2"/>
-          </svg>
-          <div class="prem-lbl">Premium · 高级功能</div>
-          <div class="prem-title" data-zh="开启私密教会学习空间" data-en="Unlock Your Private Church Study Space">开启私密教会学习空间</div>
-          <div class="prem-feats">
-            <div class="prem-feat" data-zh="私密小组与领袖注释笔记"  data-en="Private groups with leader study notes">私密小组与领袖注释笔记</div>
-            <div class="prem-feat" data-zh="教会专属读经计划"        data-en="Church-exclusive reading plans">教会专属读经计划</div>
-            <div class="prem-feat" data-zh="祷告主题与代祷记录"      data-en="Prayer threads and intercession records">祷告主题与代祷记录</div>
-            <div class="prem-feat" data-zh="小组集体灵想与讨论"      data-en="Group reflections and shared discussion">小组集体灵想与讨论</div>
-          </div>
-          <div class="prem-btn" data-zh="¥18 / 月 · 开始 7 天免费试用" data-en="¥18 / mo · Start 7-Day Free Trial">¥18 / 月 · 开始 7 天免费试用</div>
-        </div>
-
-        <div class="sec-title" data-zh="我的圈子" data-en="My Circles">我的圈子</div>
-        <div class="circle-cards">
-          <div class="circle-card">
-            <div class="cc-head">
-              <div class="cc-icon cc-icon-navy"><span style="font-size:22px;line-height:1;color:var(--soft-gold)">✦</span></div>
-              <div>
-                <div class="cc-name"   data-zh="恩典团契读经组"       data-en="Grace Fellowship Study Group">恩典团契读经组</div>
-                <div class="cc-leader" data-zh="领袖：王传道 · 8 人"  data-en="Leader: Pastor Wang · 8 members">领袖：王传道 · 8 人</div>
-              </div>
-            </div>
-            <div class="cc-plan-row">
-              <span style="font-size:13px">📖</span>
-              <span class="cc-plan-txt" data-zh="当前计划：约翰福音 30 天读经" data-en="Active Plan: John — 30-Day Reading">当前计划：约翰福音 30 天读经</span>
-              <span class="cc-plan-prog" data-zh="第 3 / 30 天" data-en="Day 3 / 30">第 3 / 30 天</span>
-            </div>
-            <div class="cc-stats">
-              <div class="cc-stat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-zh="今日 4 条灵想" data-en="4 reflections today">今日 4 条灵想</span></div>
-              <div class="cc-stat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-zh="下次：周三 晚 8 点" data-en="Next: Wed 8 PM">下次：周三 晚 8 点</span></div>
-            </div>
-          </div>
-
-          <div class="circle-card">
-            <div class="cc-head">
-              <div class="cc-icon cc-icon-gold"><span style="font-size:22px;line-height:1;color:var(--soft-gold)">✦</span></div>
-              <div>
-                <div class="cc-name"   data-zh="大学生信仰小组"       data-en="University Faith Group">大学生信仰小组</div>
-                <div class="cc-leader" data-zh="领袖：李传道 · 15 人" data-en="Leader: Pastor Li · 15 members">领袖：李传道 · 15 人</div>
-              </div>
-            </div>
-            <div class="cc-plan-row">
-              <span style="font-size:13px">📖</span>
-              <span class="cc-plan-txt"  data-zh="当前计划：诗篇精读 · 40 天"   data-en="Active Plan: Psalms Deep Study · 40 Days">当前计划：诗篇精读 · 40 天</span>
-              <span class="cc-plan-prog" data-zh="第 12 / 40 天" data-en="Day 12 / 40">第 12 / 40 天</span>
-            </div>
-            <div class="cc-stats">
-              <div class="cc-stat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-zh="今日 11 条灵想" data-en="11 reflections today">今日 11 条灵想</span></div>
-              <div class="cc-stat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-zh="下次：周五 下午" data-en="Next: Friday afternoon">下次：周五 下午</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sec-title" data-zh="代祷主题" data-en="Prayer Threads">代祷主题</div>
-        <div class="prayer-wrap">
-          <div class="prayer-card">
-            <div class="prayer-ico">🙏</div>
-            <div>
-              <div class="prayer-txt"
-                   data-zh="为新加入的三位弟兄姐妹祷告，愿他们在信仰上得到稳固的根基，在读经中遇见神的话语。"
-                   data-en="Praying for three newly joined members — may they find a solid foundation in faith and encounter God's word through scripture reading.">
-                为新加入的三位弟兄姐妹祷告，愿他们在信仰上得到稳固的根基，在读经中遇见神的话语。
-              </div>
-              <div class="prayer-meta" data-zh="恩典团契 · 17 人参与祷告" data-en="Grace Fellowship · 17 people praying">恩典团契 · 17 人参与祷告</div>
-            </div>
-          </div>
-        </div>
-        <div style="height:20px"></div>
-      </div>
-    </div>
-
-    <!-- ━━━━━━━━━━━━━━ ⑤ PROFILE ━━━━━━━━━━━━━━ -->
-    <div class="screen" id="screen-profile">
-      <div class="scroll">
-        <div class="prof-hero">
-          <div class="prof-user-row">
-            <div class="prof-av">恩</div>
-            <div>
-              <div class="prof-name">Grace Sister</div>
-              <div class="prof-meta" data-zh="成员自 2024 年 · Shanghai" data-en="Member since 2024 · Shanghai">成员自 2024 年 · Shanghai</div>
-            </div>
-          </div>
-          <div class="prof-stats">
-            <div class="ps"><span class="ps-num">47</span><span class="ps-lbl" data-zh="已读章数" data-en="Chapters">已读章数</span></div>
-            <div class="ps"><span class="ps-num">23</span><span class="ps-lbl" data-zh="灵想分享" data-en="Reflections">灵想分享</span></div>
-            <div class="ps"><span class="ps-num">12</span><span class="ps-lbl" data-zh="连续天数" data-en="Day Streak">连续天数</span></div>
-          </div>
-        </div>
-
-        <!-- App Language -->
-        <div class="s-section">
-          <div class="s-sec-title" data-zh="应用语言" data-en="App Language">应用语言</div>
-          <div class="s-group">
-            <div class="s-opt">
-              <div class="s-opt-text"><div class="s-opt-main">中文</div></div>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A6FA5" stroke-width="2.5" id="check-zh"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div class="s-opt">
-              <div class="s-opt-text"><div class="s-opt-main">English</div></div>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A6FA5" stroke-width="2.5" id="check-en" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div class="s-opt">
-              <div class="s-opt-text">
-                <div class="s-opt-main" data-zh="跟随系统" data-en="Follow System">跟随系统</div>
-                <div class="s-opt-sub" data-zh="Follow System" data-en="跟随系统">Follow System</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Scripture Mode -->
-        <div class="s-section">
-          <div class="s-sec-title" data-zh="经文阅读模式" data-en="Scripture Reading Mode">经文阅读模式</div>
-          <div class="s-group">
-            <div class="s-opt">
-              <div class="s-opt-text">
-                <div class="s-opt-main" data-zh="仅中文"  data-en="Chinese Only">仅中文</div>
-                <div class="s-opt-sub"  data-zh="Chinese Only" data-en="仅中文">Chinese Only</div>
-              </div>
-            </div>
-            <div class="s-opt">
-              <div class="s-opt-text">
-                <div class="s-opt-main" data-zh="仅英文"  data-en="English Only">仅英文</div>
-                <div class="s-opt-sub"  data-zh="English Only" data-en="仅英文">English Only</div>
-              </div>
-            </div>
-            <div class="s-opt">
-              <div class="s-opt-text">
-                <div class="s-opt-main" data-zh="中英双语对照"    data-en="Bilingual Side-by-Side">中英双语对照</div>
-                <div class="s-opt-sub"  data-zh="Bilingual Side-by-Side" data-en="中英双语对照">Bilingual Side-by-Side</div>
-              </div>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A6FA5" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <div class="s-opt">
-              <div class="s-opt-text">
-                <div class="s-opt-main" data-zh="中文经文 + 英文解释" data-en="Chinese Scripture + English Explanation">中文经文 + 英文解释</div>
-                <div class="s-opt-sub"  data-zh="Chinese Scripture + English Explanation" data-en="中文经文 + 英文解释">Chinese Scripture + English Explanation</div>
-              </div>
-            </div>
-            <div class="s-opt">
-              <div class="s-opt-text">
-                <div class="s-opt-main" data-zh="英文经文 + 中文解释" data-en="English Scripture + Chinese Explanation">英文经文 + 中文解释</div>
-                <div class="s-opt-sub"  data-zh="English Scripture + Chinese Explanation" data-en="英文经文 + 中文解释">English Scripture + Chinese Explanation</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Display -->
-        <div class="s-section">
-          <div class="s-sec-title" data-zh="文字与显示" data-en="Text & Display">文字与显示</div>
-          <div class="s-group">
-            <div class="s-row" style="padding-bottom:6px">
-              <div class="s-ico" style="background:#E8EEF7">📝</div>
-              <div class="s-label" data-zh="文字大小" data-en="Text Size">文字大小</div>
-            </div>
-            <div class="tsize-row">
-              <div class="tsz">
-                <span class="tsz-preview" style="font-size:14px">文 A</span>
-                <span class="tsz-lbl" data-zh="标准" data-en="Standard">标准</span>
-              </div>
-              <div class="tsz on">
-                <span class="tsz-preview" style="font-size:18px">文 A</span>
-                <span class="tsz-lbl" data-zh="大" data-en="Large">大</span>
-              </div>
-              <div class="tsz">
-                <span class="tsz-preview" style="font-size:23px">文 A</span>
-                <span class="tsz-lbl" data-zh="老人" data-en="Elder">老人</span>
-              </div>
-            </div>
-            <div class="slider-row">
-              <div class="sl-head">
-                <div class="sl-lbl" data-zh="行间距"  data-en="Line Spacing">行间距</div>
-                <div class="sl-val" data-zh="宽松" data-en="Relaxed">宽松</div>
-              </div>
-              <div class="sl-track"><div class="sl-fill" style="width:65%"></div><div class="sl-thumb" style="left:65%"></div></div>
-            </div>
-            <div class="s-row">
-              <div class="s-ico" style="background:#222">🌙</div>
-              <div class="s-label" data-zh="深色模式" data-en="Dark Mode">深色模式</div>
-              <div class="s-toggle off"></div>
-            </div>
-            <div class="s-row">
-              <div class="s-ico" style="background:#E8EEF7">🔊</div>
-              <div class="s-label" data-zh="自动朗读" data-en="Auto-Read Aloud">自动朗读</div>
-              <div class="s-toggle on"></div>
-            </div>
-            <div class="slider-row">
-              <div class="sl-head">
-                <div class="sl-lbl" data-zh="朗读速度"   data-en="Reading Speed">朗读速度</div>
-                <div class="sl-val">1.0×</div>
-              </div>
-              <div class="sl-track"><div class="sl-fill" style="width:42%"></div><div class="sl-thumb" style="left:42%"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Community -->
-        <div class="s-section">
-          <div class="s-sec-title" data-zh="社群与隐私" data-en="Community & Privacy">社群与隐私</div>
-          <div class="s-group">
-            <div class="s-row">
-              <div class="s-ico" style="background:#E8F5E9">👤</div>
-              <div class="s-label" data-zh="公开显示名称" data-en="Display Name">公开显示名称</div>
-              <div class="s-value">Grace Sister</div>
-              <svg class="s-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-            <div class="s-row">
-              <div class="s-ico" style="background:#FFF3E0">🔔</div>
-              <div class="s-label" data-zh="通知设置" data-en="Notifications">通知设置</div>
-              <svg class="s-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-            <div class="s-row">
-              <div class="s-ico" style="background:#FCE4EC">🔒</div>
-              <div class="s-label" data-zh="隐私偏好" data-en="Privacy Preferences">隐私偏好</div>
-              <svg class="s-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-          </div>
-        </div>
-
-        <div style="height:30px"></div>
-      </div>
-    </div>
-
-  </div><!-- /screens -->
-
-  <!-- BOTTOM NAV -->
-  <div class="bottom-nav">
-    <div class="nav-tab active" id="nt-home" onclick="go('home')">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-      <span class="nav-lbl" data-zh="首页" data-en="Home">首页</span>
-    </div>
-    <div class="nav-tab" id="nt-read" onclick="go('read')">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      <span class="nav-lbl" data-zh="读经" data-en="Read">读经</span>
-    </div>
-    <div class="nav-tab" id="nt-community" onclick="go('community')">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      <span class="nav-lbl" data-zh="社群" data-en="Community">社群</span>
-    </div>
-    <div class="nav-tab" id="nt-circles" onclick="go('circles')">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
-      <span class="nav-lbl" data-zh="圈子" data-en="Circles">圈子</span>
-    </div>
-    <div class="nav-tab" id="nt-profile" onclick="go('profile')">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span class="nav-lbl" data-zh="我的" data-en="Profile">我的</span>
-    </div>
-  </div>
-
-</div>
-</div>
-
-<script>
-// ── Navigation ──
-const NAV = {home:'home',read:'read',community:'community',circles:'circles',profile:'profile'};
-function go(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  const sc = document.getElementById('screen-'+name);
-  if (sc) { sc.classList.add('active'); const el = sc.querySelector('.scroll'); if (el) el.scrollTop = 0; }
-  const nt = document.getElementById('nt-'+(NAV[name]||name));
-  if (nt) nt.classList.add('active');
-}
-
-// ── Language Toggle ──
-let currentLang = 'zh';
-
-function setLang(lang) {
-  currentLang = lang;
-  document.documentElement.lang = lang;
-
-  // Toggle button styles
-  document.getElementById('btn-zh').classList.toggle('on', lang === 'zh');
-  document.getElementById('btn-en').classList.toggle('on', lang === 'en');
-
-  // Update all [data-zh][data-en] elements
-  document.querySelectorAll('[data-zh][data-en]').forEach(el => {
-    el.innerHTML = el.dataset[lang];
-  });
-
-  // Textarea placeholder
-  const ta = document.getElementById('j-area');
-  if (ta) ta.placeholder = lang === 'en' ? ta.dataset.phEn : ta.dataset.phZh;
-
-  // Settings checkmarks: sync with current lang
-  const czh = document.getElementById('check-zh');
-  const cen = document.getElementById('check-en');
-  if (czh) czh.style.display = lang === 'zh' ? '' : 'none';
-  if (cen) cen.style.display = lang === 'en' ? '' : 'none';
-}
-</script>
-</body>
+      // Boot in English
+      setLang("en");
+    </script>
+  </body>
 </html>
