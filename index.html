@@ -1579,6 +1579,422 @@
         box-shadow: var(--shadow-sm);
         transform: translate(-50%, -50%);
       }
+
+      /* ── JUMP TO SCRIPTURE ── */
+      .jump-card {
+        margin: 0 18px 22px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 14px 16px 16px;
+        box-shadow: var(--shadow-sm);
+      }
+      .jump-books {
+        display: flex;
+        gap: 7px;
+        margin-bottom: 11px;
+        flex-wrap: wrap;
+      }
+      .jump-book-pill {
+        padding: 5px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--bg-2);
+        color: var(--text-2);
+        cursor: pointer;
+        border: 1.5px solid transparent;
+        transition: all 0.18s;
+        font-family: Georgia, serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .jump-book-pill.selected {
+        background: var(--sapphire-light);
+        border-color: var(--muted-sapphire);
+        color: var(--muted-sapphire);
+      }
+      .jump-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .jump-ch-input {
+        flex: 1;
+        height: 38px;
+        border: 1.5px solid var(--border);
+        border-radius: var(--r-sm);
+        padding: 0 12px;
+        font-size: 14px;
+        color: var(--text-1);
+        background: var(--bg-2);
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .jump-ch-input:focus { border-color: var(--muted-sapphire); }
+      .jump-go {
+        background: var(--muted-sapphire);
+        color: white;
+        height: 38px;
+        padding: 0 20px;
+        border-radius: var(--r-sm);
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: opacity 0.2s;
+      }
+      .jump-go:active { opacity: 0.78; }
+
+      /* ── VERSE ACTIONS ── */
+      .verse-actions {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-top: 9px;
+        padding-top: 9px;
+        border-top: 1px solid var(--border-light);
+      }
+      .v-act-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: var(--text-3);
+        cursor: pointer;
+        transition: color 0.18s;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .v-act-btn.liked { color: #e0534a; }
+      .v-act-btn.liked svg { fill: #e0534a; }
+      .v-act-btn.saved { color: var(--muted-sapphire); }
+      .v-act-btn.saved svg { fill: var(--muted-sapphire); }
+      .v-act-ask {
+        margin-left: auto;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted-sapphire);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* ── CHAPTER Q&A ── */
+      .qa-section {
+        margin: 4px 18px 6px;
+      }
+      .qa-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 13px;
+        padding-top: 6px;
+      }
+      .qa-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: var(--gold-light);
+        border: 1.5px solid rgba(201,168,76,.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .qa-title {
+        font-family: Georgia, serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        margin-bottom: 1px;
+      }
+      .qa-subtitle {
+        font-size: 10.5px;
+        color: var(--text-3);
+        letter-spacing: 0.3px;
+      }
+      .qa-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        margin-bottom: 9px;
+        overflow: hidden;
+      }
+      .qa-q {
+        padding: 12px 14px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .qa-num {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--deep-navy);
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .qa-q-text {
+        font-family: Georgia, serif;
+        font-size: 13.5px;
+        color: var(--text-1);
+        line-height: 1.55;
+        flex: 1;
+      }
+      .qa-reveal {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted-sapphire);
+        white-space: nowrap;
+        margin-top: 3px;
+        flex-shrink: 0;
+      }
+      .qa-answer {
+        display: none;
+        background: var(--gold-light);
+        border-top: 1px solid var(--border-light);
+        padding: 12px 14px 12px 46px;
+      }
+      .qa-answer.open { display: block; }
+      .qa-answer-text {
+        font-family: Georgia, serif;
+        font-size: 12.5px;
+        color: var(--text-2);
+        line-height: 1.7;
+        margin-bottom: 9px;
+      }
+      .qa-save-btn {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--muted-sapphire);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .qa-save-btn.saved { color: var(--soft-gold); }
+
+      /* ── CHAPTER REFLECTION BOX ── */
+      .chapter-reflection {
+        margin: 6px 18px 6px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 15px 16px;
+      }
+      .cr-lbl {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.3px;
+        text-transform: uppercase;
+        color: var(--text-3);
+        margin-bottom: 9px;
+      }
+      .cr-area {
+        width: 100%;
+        background: var(--bg-2);
+        border: 1.5px solid var(--border);
+        border-radius: var(--r-sm);
+        padding: 10px 12px;
+        font-family: Georgia, serif;
+        font-size: 13.5px;
+        color: var(--text-1);
+        line-height: 1.65;
+        resize: none;
+        min-height: 70px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .cr-area:focus { border-color: var(--muted-sapphire); }
+      .cr-area::placeholder { color: var(--text-3); }
+      .cr-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 9px;
+      }
+      .cr-hint {
+        font-size: 10px;
+        color: var(--text-3);
+        font-style: italic;
+      }
+      .cr-save {
+        background: var(--muted-sapphire);
+        color: white;
+        padding: 7px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      /* ── AI ASK MODAL ── */
+      .modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(26,43,74,0.72);
+        backdrop-filter: blur(5px);
+        z-index: 100;
+        display: none;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .modal-overlay.open {
+        display: flex;
+        animation: modalIn 0.24s ease;
+      }
+      @keyframes modalIn {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .modal-sheet {
+        width: 100%;
+        background: var(--bg);
+        border-radius: 24px 24px 0 0;
+        padding: 0 0 22px;
+        max-height: 80%;
+        overflow-y: auto;
+        position: relative;
+      }
+      .modal-sheet::-webkit-scrollbar { display: none; }
+      .modal-handle {
+        width: 36px;
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin: 12px auto 18px;
+      }
+      .modal-close {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--bg-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--text-3);
+        font-weight: 700;
+      }
+      .modal-head {
+        padding: 0 20px 14px;
+        border-bottom: 1px solid var(--border-light);
+      }
+      .modal-eyebrow {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--muted-sapphire);
+        margin-bottom: 5px;
+      }
+      .modal-verse-ref {
+        font-family: Georgia, serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--deep-navy);
+        margin-bottom: 8px;
+      }
+      .modal-verse-text {
+        font-family: Georgia, serif;
+        font-size: 13px;
+        color: var(--text-2);
+        line-height: 1.65;
+        font-style: italic;
+        background: var(--bg-2);
+        padding: 9px 12px;
+        border-radius: var(--r-sm);
+        border-left: 3px solid var(--soft-gold);
+      }
+      .modal-qs-title {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.3px;
+        text-transform: uppercase;
+        color: var(--text-3);
+        padding: 15px 20px 10px;
+      }
+      .modal-qs {
+        padding: 0 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .modal-q-pill {
+        background: var(--bg-card);
+        border: 1.5px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 12px 14px;
+        font-family: Georgia, serif;
+        font-size: 13px;
+        color: var(--text-1);
+        line-height: 1.5;
+        cursor: pointer;
+        transition: all 0.18s;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .modal-q-pill:active {
+        background: var(--sapphire-light);
+        border-color: var(--muted-sapphire);
+      }
+      .modal-q-icon {
+        color: var(--soft-gold);
+        font-size: 13px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .modal-note {
+        font-size: 10.5px;
+        color: var(--text-3);
+        padding: 14px 20px 0;
+        line-height: 1.55;
+        font-style: italic;
+      }
+
+      /* ── TOAST ── */
+      .toast {
+        position: absolute;
+        bottom: 104px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--deep-navy);
+        color: white;
+        padding: 9px 18px;
+        border-radius: 22px;
+        font-size: 12.5px;
+        font-weight: 600;
+        white-space: nowrap;
+        z-index: 200;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+        box-shadow: var(--shadow-md);
+      }
+      .toast.show { opacity: 1; }
+
+      /* ── HOME FEED INTERACTIVE ── */
+      .c-act { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      .c-act.liked { color: #e0534a; }
+      .c-act.liked svg { fill: #e0534a; stroke: #e0534a; }
     </style>
   </head>
   <body>
@@ -1781,6 +2197,23 @@
                 </div>
               </div>
 
+              <!-- Jump to Scripture -->
+              <div class="sec-title" data-zh="直达经文" data-en="Jump to Scripture">Jump to Scripture</div>
+              <div class="jump-card">
+                <div class="jump-books" id="jump-books">
+                  <div class="jump-book-pill selected" onclick="selectBook(this,'John')" data-zh="约翰" data-en="John">John</div>
+                  <div class="jump-book-pill" onclick="selectBook(this,'Genesis')" data-zh="创世记" data-en="Genesis">Genesis</div>
+                  <div class="jump-book-pill" onclick="selectBook(this,'Psalms')" data-zh="诗篇" data-en="Psalms">Psalms</div>
+                  <div class="jump-book-pill" onclick="selectBook(this,'Romans')" data-zh="罗马书" data-en="Romans">Romans</div>
+                  <div class="jump-book-pill" onclick="selectBook(this,'Matthew')" data-zh="马太" data-en="Matthew">Matthew</div>
+                  <div class="jump-book-pill" onclick="selectBook(this,'Proverbs')" data-zh="箴言" data-en="Proverbs">Proverbs</div>
+                </div>
+                <div class="jump-row">
+                  <input class="jump-ch-input" id="jump-ch-input" type="number" min="1" max="150" placeholder="Chapter #" />
+                  <div class="jump-go" onclick="jumpToScripture()" data-zh="前往" data-en="Go">Go</div>
+                </div>
+              </div>
+
               <div
                 class="sec-title"
                 data-zh="继续阅读"
@@ -1838,27 +2271,27 @@
                 近期书卷
               </div>
               <div class="books-row">
-                <div class="book-chip">
+                <div class="book-chip" onclick="go('read')">
                   <div class="book-chip-icon">✦</div>
                   <span class="book-chip-zh">约翰福音</span>
                   <span class="book-chip-en">John</span>
                 </div>
-                <div class="book-chip">
+                <div class="book-chip" onclick="go('read')">
                   <div class="book-chip-icon">✦</div>
                   <span class="book-chip-zh">诗篇</span>
                   <span class="book-chip-en">Psalms</span>
                 </div>
-                <div class="book-chip">
+                <div class="book-chip" onclick="go('read')">
                   <div class="book-chip-icon">✦</div>
                   <span class="book-chip-zh">罗马书</span>
                   <span class="book-chip-en">Romans</span>
                 </div>
-                <div class="book-chip">
+                <div class="book-chip" onclick="go('read')">
                   <div class="book-chip-icon">✦</div>
                   <span class="book-chip-zh">创世记</span>
                   <span class="book-chip-en">Genesis</span>
                 </div>
-                <div class="book-chip">
+                <div class="book-chip" onclick="go('read')">
                   <div class="book-chip-icon">✦</div>
                   <span class="book-chip-zh">马太福音</span>
                   <span class="book-chip-en">Matthew</span>
@@ -1892,33 +2325,20 @@
                     神爱世人，这不只是一句口号，而是一个行动。当我在最低谷的时候，这节经文像一道光照进来——祂爱的不是完美的我，而是真实的我。
                   </div>
                   <div class="card-actions">
-                    <div class="c-act">
-                      <svg
-                        width="13"
-                        height="13"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                        /></svg
-                      >248
+                    <div class="c-act" onclick="toggleHomeLike(this, 248); event.stopPropagation()">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                      </svg><span>248</span>
                     </div>
-                    <div class="c-act">
-                      <svg
-                        width="13"
-                        height="13"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                        /></svg
-                      >32
+                    <div class="c-act" onclick="event.stopPropagation()">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                      </svg>32
+                    </div>
+                    <div class="c-act" style="margin-left:auto" onclick="toggleHomeSave(this); event.stopPropagation()">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                      </svg>
                     </div>
                   </div>
                 </div>
@@ -1941,33 +2361,20 @@
                     重生，不是重新来过，而是从神而生。尼哥底母的困惑是我们所有人的困惑，那个夜晚的对话，跨越两千年仍在回响。
                   </div>
                   <div class="card-actions">
-                    <div class="c-act">
-                      <svg
-                        width="13"
-                        height="13"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                        /></svg
-                      >187
+                    <div class="c-act" onclick="toggleHomeLike(this, 187); event.stopPropagation()">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                      </svg><span>187</span>
                     </div>
-                    <div class="c-act">
-                      <svg
-                        width="13"
-                        height="13"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                      >
-                        <path
-                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                        /></svg
-                      >19
+                    <div class="c-act" onclick="event.stopPropagation()">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                      </svg>19
+                    </div>
+                    <div class="c-act" style="margin-left:auto" onclick="toggleHomeSave(this); event.stopPropagation()">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                      </svg>
                     </div>
                   </div>
                 </div>
@@ -2128,19 +2535,22 @@
                     member of the Jewish ruling council.
                   </div>
                   <div class="expl-block">
-                    <div
-                      class="expl-lbl"
-                      data-zh="理解 · UNDERSTAND"
-                      data-en="UNDERSTAND"
-                    >
-                      理解 · UNDERSTAND
+                    <div class="expl-lbl" data-zh="理解 · UNDERSTAND" data-en="UNDERSTAND">理解 · UNDERSTAND</div>
+                    <div class="expl-text"
+                      data-zh="尼哥底母是法利赛人和犹太公会成员——相当于今天的最高法院法官。他受人尊敬，博学多才，掌握宗教权力。然而，正是这样一个表面上什么都有的人，悄悄来到耶稣面前寻求答案。这本身就告诉我们：外在的成功，无法满足内心深处的渴望。"
+                      data-en="Think of Nicodemus like a supreme court judge walking into a community center to learn from a local preacher. He had everything the world says should make you feel spiritually complete — status, knowledge, religious authority. And yet here he was, at Jesus' door. That gap between having it all and still feeling empty? That's a very human experience.">
+                      尼哥底母是法利赛人和犹太公会成员——相当于今天的最高法院法官。他受人尊敬，博学多才，掌握宗教权力。然而，正是这样一个表面上什么都有的人，悄悄来到耶稣面前寻求答案。这本身就告诉我们：外在的成功，无法满足内心深处的渴望。
                     </div>
-                    <div
-                      class="expl-text"
-                      data-zh="尼哥底母是当时社会地位极高的宗教领袖，属于掌权阶层。他来找耶稣，本身已经是一件不寻常的事——权贵向木匠的儿子寻求答案。"
-                      data-en="Nicodemus was a high-ranking religious leader with great social status. The fact that he came to Jesus at all was remarkable — a man of power seeking answers from a carpenter's son."
-                    >
-                      尼哥底母是当时社会地位极高的宗教领袖，属于掌权阶层。他来找耶稣，本身已经是一件不寻常的事——权贵向木匠的儿子寻求答案。
+                    <div class="verse-actions">
+                      <div class="v-act-btn" onclick="toggleVerseLike(this)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span>14</span>
+                      </div>
+                      <div class="v-act-btn" onclick="toggleVerseSave(this, 'v1')">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                        <span data-zh="稍后反思" data-en="Save for Reflection">Save for Reflection</span>
+                      </div>
+                      <div class="v-act-ask" onclick="openAskModal('John 3:1','Now there was a Pharisee, a man named Nicodemus who was a member of the Jewish ruling council.',['Why would someone powerful like Nicodemus feel the need to seek Jesus?','What does this verse say about the limits of status and knowledge?','Is there an area of your own life where achievement hasn\'t brought the meaning you expected?','What does it take for someone to admit they need something more?'])">✦ Ask</div>
                     </div>
                   </div>
                 </div>
@@ -2159,19 +2569,22 @@
                     perform the signs you are doing if God were not with him."
                   </div>
                   <div class="expl-block">
-                    <div
-                      class="expl-lbl"
-                      data-zh="理解 · UNDERSTAND"
-                      data-en="UNDERSTAND"
-                    >
-                      理解 · UNDERSTAND
+                    <div class="expl-lbl" data-zh="理解 · UNDERSTAND" data-en="UNDERSTAND">理解 · UNDERSTAND</div>
+                    <div class="expl-text"
+                      data-zh="「夜里」来——这个细节耐人寻味。他是为了避开同僚的眼光？还是需要一个安静的时刻来进行这场深谈？可能两者都有。值得注意的是：他来时已经带着初步的认信——他相信耶稣是从神那里来的。这不是一次审问，而是一次真诚的寻求。他迈出了第一步，尽管还带着顾虑。"
+                      data-en="&ldquo;At night&rdquo; — that detail matters. Maybe he came in darkness to avoid being seen by colleagues who distrusted Jesus. Or maybe he wanted quiet, unhurried time. Probably both. What's remarkable is that he came at all — and he came with an honest opening: &ldquo;we know you come from God.&rdquo; This isn't an interrogation. It's what genuine seeking looks like — curious, cautious, but moving toward truth.">
+                      「夜里」来——这个细节耐人寻味。他是为了避开同僚的眼光？还是需要一个安静的时刻来进行这场深谈？可能两者都有。值得注意的是：他来时已经带着初步的认信——他相信耶稣是从神那里来的。这不是一次审问，而是一次真诚的寻求。他迈出了第一步，尽管还带着顾虑。
                     </div>
-                    <div
-                      class="expl-text"
-                      data-zh="他「夜里」来，可能是为了避开同僚的眼光，也可能是选择一个安静可以深谈的时机。他承认耶稣来自神，但还未理解耶稣真正的身份。这是一段求知的对话，而非对抗。"
-                      data-en="He came &ldquo;at night&rdquo; — perhaps to avoid the eyes of his peers, or to find a quiet moment for deep conversation. He acknowledged Jesus came from God, but hadn&rsquo;t yet grasped who Jesus truly was. This is a conversation of seeking, not confrontation."
-                    >
-                      他「夜里」来，可能是为了避开同僚的眼光，也可能是选择一个安静可以深谈的时机。他承认耶稣来自神，但还未理解耶稣真正的身份。这是一段求知的对话，而非对抗。
+                    <div class="verse-actions">
+                      <div class="v-act-btn" onclick="toggleVerseLike(this)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span>22</span>
+                      </div>
+                      <div class="v-act-btn" onclick="toggleVerseSave(this, 'v2')">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                        <span data-zh="稍后反思" data-en="Save for Reflection">Save for Reflection</span>
+                      </div>
+                      <div class="v-act-ask" onclick="openAskModal('John 3:2','He came to Jesus at night and said, &quot;Rabbi, we know that you are a teacher who has come from God.&quot;',['Why does coming in darkness make Nicodemus&rsquo;s search feel so relatable?','Have you ever searched for something spiritually but kept it private? What made it feel safer that way?','What does it mean to acknowledge something is true but not yet fully commit to it?','What miracle or evidence has made you take faith more seriously?'])">✦ Ask</div>
                     </div>
                   </div>
                 </div>
@@ -2189,19 +2602,22 @@
                     kingdom of God unless they are born again."
                   </div>
                   <div class="expl-block">
-                    <div
-                      class="expl-lbl"
-                      data-zh="理解 · UNDERSTAND"
-                      data-en="UNDERSTAND"
-                    >
-                      理解 · UNDERSTAND
+                    <div class="expl-lbl" data-zh="理解 · UNDERSTAND" data-en="UNDERSTAND">理解 · UNDERSTAND</div>
+                    <div class="expl-text"
+                      data-zh="尼哥底母开口称赞，耶稣却直接切入重点——这个回应出人意料。为什么？因为耶稣知道他真正需要的不是认可，而是一种全新的生命。「重生」在原文中也可以译为「从上而生」：不是重头再来，不是宗教行为的累积，而是一件只有神才能做到的事——从内在彻底更新一个人。"
+                      data-en="Nicodemus opened with a compliment; Jesus responded with a riddle. That's intentional — Jesus knew Nicodemus didn't need validation, he needed a completely new way of seeing. &ldquo;Born again&rdquo; in Greek can also mean &ldquo;born from above.&rdquo; It's not about turning over a new leaf or trying harder at religion. It's a transformation that originates with God — something that happens to you, not something you achieve.">
+                      尼哥底母开口称赞，耶稣却直接切入重点——这个回应出人意料。为什么？因为耶稣知道他真正需要的不是认可，而是一种全新的生命。「重生」在原文中也可以译为「从上而生」：不是重头再来，不是宗教行为的累积，而是一件只有神才能做到的事——从内在彻底更新一个人。
                     </div>
-                    <div
-                      class="expl-text"
-                      data-zh="耶稣没有直接回应赞美，而是立刻切入核心：真正认识神需要一种全新的生命状态。「重生」在原文有「从上而生」的含义，不是人可以靠自己努力完成的，而是来自神的更新。"
-                      data-en='Jesus skipped the praise and went straight to the heart: truly knowing God requires an entirely new state of life. "Born again" in the original language carries the meaning of "born from above" — something no human effort can achieve, only God&rsquo;s renewal.'
-                    >
-                      耶稣没有直接回应赞美，而是立刻切入核心：真正认识神需要一种全新的生命状态。「重生」在原文有「从上而生」的含义，不是人可以靠自己努力完成的，而是来自神的更新。
+                    <div class="verse-actions">
+                      <div class="v-act-btn" onclick="toggleVerseLike(this)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span>38</span>
+                      </div>
+                      <div class="v-act-btn" onclick="toggleVerseSave(this, 'v3')">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                        <span data-zh="稍后反思" data-en="Save for Reflection">Save for Reflection</span>
+                      </div>
+                      <div class="v-act-ask" onclick="openAskModal('John 3:3','Jesus replied, &quot;Very truly I tell you, no one can see the kingdom of God unless they are born again.&quot;',['What&rsquo;s the difference between &ldquo;born again&rdquo; and just &ldquo;trying harder&rdquo; at being good?','Why did Jesus respond to a compliment with a challenge instead of saying thank you?','What would it feel like to approach your faith as if you were starting completely fresh?','In what area of life do you most feel the need for real change — not just improvement, but renewal?'])">✦ Ask</div>
                     </div>
                   </div>
                 </div>
@@ -2220,24 +2636,108 @@
                     eternal life."
                   </div>
                   <div class="expl-block">
-                    <div
-                      class="expl-lbl"
-                      data-zh="理解 · UNDERSTAND"
-                      data-en="UNDERSTAND"
-                    >
-                      理解 · UNDERSTAND
+                    <div class="expl-lbl" data-zh="理解 · UNDERSTAND" data-en="UNDERSTAND">理解 · UNDERSTAND</div>
+                    <div class="expl-text"
+                      data-zh="这可能是整本圣经最广为人知的一节，但它太熟悉，反而容易被忽略。试着重读：神爱的对象是「世人」——不是善人，不是值得被爱的人，而是整个世界，包括正在挣扎中的你我。「赐给」不是借出，而是永远的给予。「信」也不是完美地理解一切，而是信任——相信这一切是真实的。永生，从今天就开始了。"
+                      data-en="This may be the most quoted verse in all of Scripture — which means we often read it too fast. Try hearing it fresh: God loved &ldquo;the world&rdquo; — not just the good people, not just the deserving. Everyone. Including you on your worst day. And &ldquo;gave&rdquo; isn&rsquo;t a loan — it&rsquo;s a permanent, irreversible act of love. The only thing required on your end is &ldquo;belief&rdquo; — not perfect understanding, just trust. Eternal life isn&rsquo;t only about what comes after death. It starts now.">
+                      这可能是整本圣经最广为人知的一节，但它太熟悉，反而容易被忽略。试着重读：神爱的对象是「世人」——不是善人，不是值得被爱的人，而是整个世界，包括正在挣扎中的你我。「赐给」不是借出，而是永远的给予。「信」也不是完美地理解一切，而是信任——相信这一切是真实的。永生，从今天就开始了。
                     </div>
-                    <div
-                      class="expl-text"
-                      data-zh="这是整本圣经最广为人知的一节。神爱的对象是「世人」——不分种族、背景、身份。「赐给」意味着完全的给予，而非借用。信祂的结果不是短暂的恩宠，而是永恒的生命。"
-                      data-en="The most recognized verse in all of Scripture. God&rsquo;s love extends to &ldquo;the world&rdquo; — no barrier of race, background, or status. &ldquo;Gave&rdquo; means complete surrender, not a loan. Believing in Him brings not fleeting blessing but eternal life."
-                    >
-                      这是整本圣经最广为人知的一节。神爱的对象是「世人」——不分种族、背景、身份。「赐给」意味着完全的给予，而非借用。信祂的结果不是短暂的恩宠，而是永恒的生命。
+                    <div class="verse-actions">
+                      <div class="v-act-btn" onclick="toggleVerseLike(this)">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span>91</span>
+                      </div>
+                      <div class="v-act-btn" onclick="toggleVerseSave(this, 'v16')">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                        <span data-zh="稍后反思" data-en="Save for Reflection">Save for Reflection</span>
+                      </div>
+                      <div class="v-act-ask" onclick="openAskModal('John 3:16','&ldquo;For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.&rdquo;',['What does it change if you replace &ldquo;the world&rdquo; with your own name?','What&rsquo;s the difference between knowing this verse and truly believing it?','How would your day be different if you started it with the certainty that you are loved exactly as you are?','What would it mean to you personally if eternal life starts today, not just after death?'])">✦ Ask</div>
                     </div>
                   </div>
                 </div>
 
-                <div class="chapter-done">
+              </div><!-- /verse-zone -->
+
+              <!-- Chapter Q&A -->
+              <div class="qa-section">
+                <div class="qa-header">
+                  <div class="qa-icon">💡</div>
+                  <div>
+                    <div class="qa-title" data-zh="理解问题" data-en="Comprehension Questions">Comprehension Questions</div>
+                    <div class="qa-subtitle" data-zh="反思与理解 · 3 题" data-en="Reflect &amp; Understand · 3 Questions">Reflect &amp; Understand · 3 Questions</div>
+                  </div>
+                </div>
+
+                <div class="qa-card">
+                  <div class="qa-q" onclick="toggleQA(1)">
+                    <div class="qa-num">1</div>
+                    <div class="qa-q-text" data-zh="尼哥底母为什么选择在夜里来见耶稣，而不是在白天？" data-en="Why do you think Nicodemus came to Jesus at night instead of during the day?">Why do you think Nicodemus came to Jesus at night instead of during the day?</div>
+                    <div class="qa-reveal" id="qa-reveal-1">Reveal</div>
+                  </div>
+                  <div class="qa-answer" id="qa-ans-1">
+                    <div class="qa-answer-text" data-zh="尼哥底母很可能是为了避开其他法利赛人和宗教领袖的眼光——他们对耶稣持敌视态度。作为受人尊敬的议会成员，公开与耶稣来往可能危及他的地位。但他仍然来了，这说明他内心的渴望胜过了他的顾虑。" data-en="Nicodemus likely came at night to avoid being seen by fellow Pharisees who were hostile toward Jesus. As a respected council member, being seen with Jesus could damage his reputation. But his coming at all — despite the risk — shows that his spiritual hunger was stronger than his fear of what others would think.">Nicodemus likely came at night to avoid being seen by fellow Pharisees who were hostile toward Jesus. As a respected council member, being seen with Jesus could damage his reputation. But his coming at all — despite the risk — shows that his spiritual hunger was stronger than his fear of what others would think.</div>
+                    <div class="qa-save-btn" onclick="showToast('✦ Saved for reflection')">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                      <span data-zh="保存反思" data-en="Save for Reflection">Save for Reflection</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="qa-card">
+                  <div class="qa-q" onclick="toggleQA(2)">
+                    <div class="qa-num">2</div>
+                    <div class="qa-q-text" data-zh="耶稣所说的「重生」，与我们日常所说的「重新开始」有何不同？" data-en="What's the difference between being &ldquo;born again&rdquo; (as Jesus means it) and just &ldquo;starting over&rdquo;?">What's the difference between being &ldquo;born again&rdquo; (as Jesus means it) and just &ldquo;starting over&rdquo;?</div>
+                    <div class="qa-reveal" id="qa-reveal-2">Reveal</div>
+                  </div>
+                  <div class="qa-answer" id="qa-ans-2">
+                    <div class="qa-answer-text" data-zh="「重新开始」通常依赖自己的意志力和努力。但耶稣所说的「重生」（或「从上而生」）是指一种来自神的内在更新——不是你做了什么，而是神在你里面所做的改变。这不是改变习惯，而是心灵本质的转变。" data-en="&ldquo;Starting over&rdquo; relies on your own willpower and effort — you decide to change and try harder. But being &ldquo;born again&rdquo; (or &ldquo;born from above&rdquo;) is a transformation that originates with God. It's not about what you do — it's about what God does in you. It's not turning over a new leaf; it's receiving an entirely new nature.">
+                      &ldquo;Starting over&rdquo; relies on your own willpower and effort — you decide to change and try harder. But being &ldquo;born again&rdquo; (or &ldquo;born from above&rdquo;) is a transformation that originates with God. It's not about what you do — it's about what God does in you. It's not turning over a new leaf; it's receiving an entirely new nature.
+                    </div>
+                    <div class="qa-save-btn" onclick="showToast('✦ Saved for reflection')">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                      <span data-zh="保存反思" data-en="Save for Reflection">Save for Reflection</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="qa-card">
+                  <div class="qa-q" onclick="toggleQA(3)">
+                    <div class="qa-num">3</div>
+                    <div class="qa-q-text" data-zh="约翰 3:16 中的「世人」包括哪些人？这对你来说意味着什么？" data-en="John 3:16 says God loved &ldquo;the world.&rdquo; Who exactly does that include — and why does it matter?">John 3:16 says God loved &ldquo;the world.&rdquo; Who exactly does that include — and why does it matter?</div>
+                    <div class="qa-reveal" id="qa-reveal-3">Reveal</div>
+                  </div>
+                  <div class="qa-answer" id="qa-ans-3">
+                    <div class="qa-answer-text" data-zh="「世人」在原文（kosmos）中意味着所有人，没有例外。不分种族、背景、过去的错误或现在的挣扎。这句话的震撼之处在于：它不是给那些「够格」的人的，而是给每一个人的。这意味着神的爱不需要你先证明自己值得被爱。" data-en="&ldquo;The world&rdquo; in the original Greek (kosmos) means everyone — no exceptions for race, background, past mistakes, or present struggles. What makes this verse so powerful is that it's not conditional on worthiness. God didn't say &ldquo;God so loved the good people&rdquo; or &ldquo;the religious people.&rdquo; He loved the world. That means the door is open to everyone — including you, exactly as you are right now.">
+                      &ldquo;The world&rdquo; in the original Greek (kosmos) means everyone — no exceptions for race, background, past mistakes, or present struggles. What makes this verse so powerful is that it's not conditional on worthiness. God didn't say &ldquo;God so loved the good people.&rdquo; He loved the world. That means the door is open to everyone — including you, exactly as you are right now.
+                    </div>
+                    <div class="qa-save-btn" onclick="showToast('✦ Saved for reflection')">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                      <span data-zh="保存反思" data-en="Save for Reflection">Save for Reflection</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chapter Reflection -->
+              <div class="chapter-reflection">
+                <div class="cr-lbl" data-zh="写下你的灵想" data-en="YOUR REFLECTION">YOUR REFLECTION</div>
+                <textarea class="cr-area" id="cr-area" placeholder="What from this chapter stayed with you? Write a private note…" data-ph-en="What from this chapter stayed with you? Write a private note…" data-ph-zh="这一章中，什么让你印象最深？写下你的感受……"></textarea>
+                <div class="cr-row">
+                  <span class="cr-hint" data-zh="仅你自己可见" data-en="Private · only you can see this">Private · only you can see this</span>
+                  <div class="cr-save" onclick="saveChapterReflection()" data-zh="保存灵想" data-en="Save for Reflection">Save for Reflection</div>
+                </div>
+              </div>
+
+              <!-- Ask about chapter -->
+              <div style="display:flex;justify-content:center;padding:10px 18px 4px">
+                <div style="font-size:11px;font-weight:700;color:var(--muted-sapphire);cursor:pointer;display:flex;align-items:center;gap:5px" onclick="openAskModal('John Chapter 3','The Conversation with Nicodemus — Jesus explains being born again and reveals God&rsquo;s love for the world.',['What is the single most important thing Jesus wanted Nicodemus to understand in this chapter?','How does the image of &ldquo;light vs. darkness&rdquo; (verses 19–21) connect to Nicodemus coming at night?','What does it mean to &ldquo;believe&rdquo; in Jesus — is it just agreeing with facts, or something more?','How has reading this chapter changed or challenged the way you think about faith?'])">
+                  ✦ Ask about this chapter
+                </div>
+              </div>
+
+              <div style="height:8px"></div>
+
+              <div class="chapter-done">
                   <svg
                     style="
                       position: absolute;
@@ -2323,13 +2823,12 @@
                   <div
                     class="done-btn"
                     data-zh="写下你的灵想 →"
-                    data-en="Write Your Reflection →"
+                    data-en="Share Your Reflection →"
                     onclick="go('community')"
                   >
-                    写下你的灵想 →
+                    Share Your Reflection →
                   </div>
                 </div>
-              </div>
               <div style="height: 24px"></div>
             </div>
           </div>
@@ -2390,8 +2889,9 @@
                     class="j-submit"
                     data-zh="公开分享"
                     data-en="Share Publicly"
+                    onclick="submitComment()"
                   >
-                    公开分享
+                    Share Publicly
                   </div>
                 </div>
               </div>
@@ -3350,6 +3850,25 @@
         </div>
         <!-- /screens -->
 
+        <!-- AI ASK MODAL -->
+        <div class="modal-overlay" id="ask-modal" onclick="if(event.target===this)closeAskModal()">
+          <div class="modal-sheet">
+            <div class="modal-close" onclick="closeAskModal()">✕</div>
+            <div class="modal-handle"></div>
+            <div class="modal-head">
+              <div class="modal-eyebrow" data-zh="探索这节经文" data-en="ASK ABOUT THIS VERSE">ASK ABOUT THIS VERSE</div>
+              <div class="modal-verse-ref" id="modal-ref">John 3:1</div>
+              <div class="modal-verse-text" id="modal-verse-text"></div>
+            </div>
+            <div class="modal-qs-title" data-zh="探索这些问题" data-en="QUESTIONS TO EXPLORE">QUESTIONS TO EXPLORE</div>
+            <div class="modal-qs" id="modal-qs"></div>
+            <div class="modal-note" data-zh="点击任意问题，将其保存到你的灵想笔记中，以便深入思考。" data-en="These questions are prepared for this passage. Tap any to save to your journal for deeper reflection.">These questions are prepared for this passage. Tap any to save to your journal for deeper reflection.</div>
+          </div>
+        </div>
+
+        <!-- TOAST -->
+        <div class="toast" id="app-toast"></div>
+
         <!-- BOTTOM NAV -->
         <div class="bottom-nav">
           <div class="nav-tab active" id="nt-home" onclick="go('home')">
@@ -3426,59 +3945,188 @@
 
     <script>
       // ── Navigation ──
-      const NAV = {
-        home: "home",
-        read: "read",
-        community: "community",
-        circles: "circles",
-        profile: "profile",
-      };
+      const NAV = { home:"home", read:"read", community:"community", circles:"circles", profile:"profile" };
       function go(name) {
-        document
-          .querySelectorAll(".screen")
-          .forEach((s) => s.classList.remove("active"));
-        document
-          .querySelectorAll(".nav-tab")
-          .forEach((t) => t.classList.remove("active"));
+        document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+        document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
         const sc = document.getElementById("screen-" + name);
-        if (sc) {
-          sc.classList.add("active");
-          const el = sc.querySelector(".scroll");
-          if (el) el.scrollTop = 0;
-        }
+        if (sc) { sc.classList.add("active"); const el = sc.querySelector(".scroll"); if (el) el.scrollTop = 0; }
         const nt = document.getElementById("nt-" + (NAV[name] || name));
         if (nt) nt.classList.add("active");
       }
 
       // ── Language Toggle ──
       let currentLang = "en";
-
       function setLang(lang) {
         currentLang = lang;
         document.documentElement.lang = lang;
-
-        // Toggle button styles
         document.getElementById("btn-zh").classList.toggle("on", lang === "zh");
         document.getElementById("btn-en").classList.toggle("on", lang === "en");
-
-        // Update all [data-zh][data-en] elements
-        document.querySelectorAll("[data-zh][data-en]").forEach((el) => {
-          el.innerHTML = el.dataset[lang];
-        });
-
-        // Textarea placeholder
+        document.querySelectorAll("[data-zh][data-en]").forEach(el => { el.innerHTML = el.dataset[lang]; });
+        // Textarea placeholders
         const ta = document.getElementById("j-area");
-        if (ta)
-          ta.placeholder = lang === "en" ? ta.dataset.phEn : ta.dataset.phZh;
-
-        // Settings checkmarks: sync with current lang
+        if (ta) ta.placeholder = lang === "en" ? ta.dataset.phEn : ta.dataset.phZh;
+        const cr = document.getElementById("cr-area");
+        if (cr) cr.placeholder = lang === "en" ? cr.dataset.phEn : cr.dataset.phZh;
+        // Settings checkmarks
         const czh = document.getElementById("check-zh");
         const cen = document.getElementById("check-en");
         if (czh) czh.style.display = lang === "zh" ? "" : "none";
         if (cen) cen.style.display = lang === "en" ? "" : "none";
       }
 
-      // Boot in English
+      // ── Toast ──
+      let toastTimer;
+      function showToast(msg) {
+        const t = document.getElementById("app-toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+      }
+
+      // ── Verse Like ──
+      function toggleVerseLike(btn) {
+        const liked = btn.classList.toggle("liked");
+        const span = btn.querySelector("span");
+        if (span) { const n = parseInt(span.textContent); span.textContent = liked ? n + 1 : n - 1; }
+        if (liked) showToast("❤ Liked");
+      }
+
+      // ── Verse Save ──
+      const savedVerses = new Set();
+      function toggleVerseSave(btn, id) {
+        const isSaved = savedVerses.has(id);
+        if (isSaved) {
+          savedVerses.delete(id);
+          btn.classList.remove("saved");
+          showToast("Removed from reflections");
+        } else {
+          savedVerses.add(id);
+          btn.classList.add("saved");
+          showToast("✦ Saved for reflection");
+        }
+      }
+
+      // ── Home Feed Like / Save ──
+      function toggleHomeLike(btn, baseCount) {
+        const liked = btn.classList.toggle("liked");
+        const span = btn.querySelector("span");
+        if (span) {
+          const n = parseInt(span.textContent);
+          span.textContent = liked ? n + 1 : n - 1;
+        }
+        const svg = btn.querySelector("svg");
+        if (svg) svg.setAttribute("fill", liked ? "currentColor" : "none");
+        if (liked) showToast("❤ Liked");
+      }
+      function toggleHomeSave(btn) {
+        const saved = btn.classList.toggle("saved");
+        const svg = btn.querySelector("svg");
+        if (svg) svg.setAttribute("fill", saved ? "currentColor" : "none");
+        showToast(saved ? "✦ Saved for reflection" : "Removed from reflections");
+      }
+
+      // ── Community Comment Submit ──
+      function submitComment() {
+        const ta = document.getElementById("j-area");
+        const text = ta.value.trim();
+        if (!text) { showToast("Write something first"); return; }
+        const feed = document.querySelector(".disc-feed");
+        const card = document.createElement("div");
+        card.className = "disc-card";
+        card.innerHTML = `
+          <div class="dc-head">
+            <div class="dc-av dc-av-gold">恩</div>
+            <div class="dc-info">
+              <div class="dc-name">Grace Sister</div>
+              <div class="dc-meta">Just now</div>
+            </div>
+            <div class="verse-tag">John 3</div>
+          </div>
+          <div class="dc-text">${text}</div>
+          <div class="dc-acts">
+            <div class="dc-act" onclick="toggleHomeLike(this,0)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg><span>0</span>
+            </div>
+          </div>
+        `;
+        feed.insertBefore(card, feed.firstChild);
+        ta.value = "";
+        showToast("✦ Reflection shared!");
+      }
+
+      // ── Chapter Reflection Save ──
+      function saveChapterReflection() {
+        const area = document.getElementById("cr-area");
+        if (!area || !area.value.trim()) { showToast("Write something first"); return; }
+        showToast("✦ Saved for reflection");
+        area.value = "";
+      }
+
+      // ── Q&A Reveal ──
+      function toggleQA(num) {
+        const ans = document.getElementById("qa-ans-" + num);
+        const btn = document.getElementById("qa-reveal-" + num);
+        if (!ans || !btn) return;
+        const open = ans.classList.toggle("open");
+        btn.textContent = open ? "Hide" : "Reveal";
+      }
+
+      // ── Jump to Scripture ──
+      let selectedBook = "John";
+      function selectBook(el, book) {
+        document.querySelectorAll(".jump-book-pill").forEach(p => p.classList.remove("selected"));
+        el.classList.add("selected");
+        selectedBook = book;
+      }
+      function jumpToScripture() {
+        const ch = document.getElementById("jump-ch-input").value || "1";
+        showToast("Opening " + selectedBook + " " + ch);
+        go("read");
+      }
+
+      // ── AI Ask Modal ──
+      function openAskModal(ref, verseText, questions) {
+        document.getElementById("modal-ref").textContent = ref;
+        document.getElementById("modal-verse-text").textContent = "";
+        const textEl = document.getElementById("modal-verse-text");
+        textEl.innerHTML = verseText;
+        const qs = document.getElementById("modal-qs");
+        qs.innerHTML = "";
+        questions.forEach(q => {
+          const div = document.createElement("div");
+          div.className = "modal-q-pill";
+          div.innerHTML = '<span class="modal-q-icon">✦</span><span>' + q + "</span>";
+          div.onclick = () => { showToast("✦ Saved to your journal"); closeAskModal(); };
+          qs.appendChild(div);
+        });
+        document.getElementById("ask-modal").classList.add("open");
+      }
+      function closeAskModal() {
+        document.getElementById("ask-modal").classList.remove("open");
+      }
+
+      // ── Settings Toggles ──
+      document.querySelectorAll(".s-toggle").forEach(toggle => {
+        toggle.addEventListener("click", function() {
+          this.classList.toggle("on");
+          this.classList.toggle("off");
+        });
+      });
+
+      // ── Text Size Selection ──
+      document.querySelectorAll(".tsz").forEach(tsz => {
+        tsz.addEventListener("click", function() {
+          document.querySelectorAll(".tsz").forEach(t => t.classList.remove("on"));
+          this.classList.add("on");
+          showToast("Text size updated");
+        });
+      });
+
+      // ── Boot ──
       setLang("en");
     </script>
   </body>
